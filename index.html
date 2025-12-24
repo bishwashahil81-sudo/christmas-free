@@ -9,14 +9,35 @@
 <body>
   <div class="container">
     <h1>Merry Christmas 🎄</h1>
-    <p>
-      May your Christmas be filled with warmth, soft lights, cozy moments,
-      and beautiful memories that stay forever.
-    </p>
-    <a href="notes.html" class="button">Open Notes 💌</a>
+    
+    <div id="game-zone" style="margin: 20px 0;">
+      <h3 style="color: white; font-family: sans-serif; margin-bottom: 15px;">Win Tic-Tac-Toe to see your gift! 🎁</h3>
+      
+      <div id="board" style="display: grid; grid-template-columns: repeat(3, 80px); gap: 8px; justify-content: center; margin: 0 auto;">
+          <div class="cell" onclick="play(0)" style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border: 1px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; cursor: pointer;"></div>
+          <div class="cell" onclick="play(1)" style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border: 1px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; cursor: pointer;"></div>
+          <div class="cell" onclick="play(2)" style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border: 1px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; cursor: pointer;"></div>
+          <div class="cell" onclick="play(3)" style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border: 1px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; cursor: pointer;"></div>
+          <div class="cell" onclick="play(4)" style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border: 1px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; cursor: pointer;"></div>
+          <div class="cell" onclick="play(5)" style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border: 1px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; cursor: pointer;"></div>
+          <div class="cell" onclick="play(6)" style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border: 1px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; cursor: pointer;"></div>
+          <div class="cell" onclick="play(7)" style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border: 1px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; cursor: pointer;"></div>
+          <div class="cell" onclick="play(8)" style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border: 1px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; cursor: pointer;"></div>
+      </div>
+
+      <div id="reward" style="display: none; margin-top: 20px; animation: fadeIn 1s;">
+          <p style="color: #00ffcc; font-weight: bold;">Congratulations! You unlocked the gift!</p>
+          <a href="gallery.html" class="button" style="background: #ff4d4d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-bottom: 10px;">View Family Gallery 📸</a>
+          <br>
+          <a href="notes.html" class="button" style="background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Open Notes 💌</a>
+      </div>
+    </div>
+    
     <button id="music-toggle" class="button music-toggle" aria-pressed="false">🔈 Music OFF</button>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+
+
