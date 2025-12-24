@@ -114,3 +114,79 @@ const snow=Array.from({length:120},()=>({
   });
   requestAnimationFrame(snowAnim);
 })();
+/* 🌟 STARS + AURORA + GIFTS */
+const fx = document.getElementById("effects");
+const fctx = fx.getContext("2d");
+
+function fxResize(){
+  fx.width = innerWidth;
+  fx.height = innerHeight;
+}
+fxResize();
+addEventListener("resize", fxResize);
+
+/* Stars */
+const stars = Array.from({length: 60}, () => ({
+  x: Math.random() * fx.width,
+  y: Math.random() * fx.height,
+  r: Math.random() * 1.5 + 0.5,
+  s: Math.random() * 0.6 + 0.2
+}));
+
+/* Gifts (spawn on win) */
+let gifts = [];
+function spawnGifts(){
+  gifts = Array.from({length: 18}, () => ({
+    x: Math.random() * fx.width,
+    y: -20,
+    s: Math.random() * 2 + 1,
+    r: Math.random() * Math.PI
+  }));
+}
+
+/* Aurora */
+let auroraOffset = 0;
+
+function effectsLoop(){
+  fctx.clearRect(0,0,fx.width,fx.height);
+
+  /* Aurora */
+  auroraOffset += 0.3;
+  const grad = fctx.createLinearGradient(0,0,fx.width,0);
+  grad.addColorStop(0,"rgba(0,255,150,0)");
+  grad.addColorStop(0.5,"rgba(0,255,150,0.12)");
+  grad.addColorStop(1,"rgba(0,255,150,0)");
+  fctx.fillStyle = grad;
+  fctx.fillRect(-fx.width/2 + auroraOffset,0,fx.width*2,fx.height);
+
+  /* Stars */
+  stars.forEach(st=>{
+    fctx.beginPath();
+    fctx.arc(st.x, st.y, st.r, 0, Math.PI*2);
+    fctx.fillStyle = "rgba(255,230,150,0.8)";
+    fctx.shadowBlur = 10;
+    fctx.shadowColor = "rgba(255,230,150,0.8)";
+    fctx.fill();
+    st.y += st.s;
+    if(st.y > fx.height){
+      st.y = -5;
+      st.x = Math.random() * fx.width;
+    }
+  });
+
+  /* Gifts */
+  gifts.forEach(g=>{
+    fctx.save();
+    fctx.translate(g.x, g.y);
+    fctx.rotate(g.r);
+    fctx.fillStyle = "red";
+    fctx.fillRect(-6,-6,12,12);
+    fctx.fillStyle = "gold";
+    fctx.fillRect(-2,-8,4,16);
+    fctx.restore();
+    g.y += g.s;
+  });
+
+  requestAnimationFrame(effectsLoop);
+}
+effectsLoop();
