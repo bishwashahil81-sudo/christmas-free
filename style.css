@@ -1,71 +1,39 @@
-/* Overall page style */
-body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #0b132b; /* Midnight Blue */
-    font-family: 'Arial', sans-serif;
+body, html {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    overflow: hidden; background-color: #050a18; font-family: 'Arial', sans-serif;
 }
 
-/* Snowflake Canvas */
-#snowCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
+.background-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+    filter: blur(8px) brightness(40%); transform: scale(1.1); z-index: -2;
 }
 
-/* THE BUTTON MENU - This fixes the squished look */
+#snowCanvas { position: fixed; top: 0; left: 0; z-index: -1; }
+
 .controls {
-    position: absolute;
-    top: 20px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    z-index: 10;
-    flex-wrap: wrap; /* Helps on small phone screens */
+    position: absolute; top: 20px; width: 100%;
+    display: flex; justify-content: center; gap: 10px; z-index: 10;
 }
 
-/* Individual Button Styles */
-.nav-btn, #musicToggle {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 20px;
-    text-decoration: none;
-    font-size: 14px;
-    cursor: pointer;
-    backdrop-filter: blur(5px);
-    transition: 0.3s;
+#musicToggle, .nav-btn, #resetBtn {
+    background: #ff4d4d; color: white; border: none; padding: 8px 15px;
+    border-radius: 20px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 14px;
 }
 
-#musicToggle { background: #ff4d4d; border: none; } /* Red for Music */
+.nav-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); }
 
-.nav-btn:hover, #musicToggle:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
-}
-
-/* Main Text in the center */
 .main-content {
-    position: absolute;
-    top: 40%;
-    width: 100%;
-    text-align: center;
-    pointer-events: none;
+    position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
+    text-align: center; width: 90%;
 }
 
-h1 {
-    font-size: 3rem;
-    color: #ff4d4d;
-    text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
-    margin: 0;
-}
+h1 { color: #ff4d4d; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255,77,77,0.5); }
 
-p {
-    color: #8892b0;
-    font-size: 1.2rem;
-}
+/* Tic Tac Toe UI */
+.game-container { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; backdrop-filter: blur(10px); display: inline-block; }
+#status { color: #00ffcc; font-size: 1rem; margin-bottom: 10px; }
+.board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; width: 210px; margin: 0 auto 15px auto; }
+.cell { width: 65px; height: 65px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; font-weight: bold; cursor: pointer; }
+.cell:hover { background: rgba(255, 255, 255, 0.2); }
+
