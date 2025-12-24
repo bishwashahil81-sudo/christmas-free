@@ -37,3 +37,7 @@ musicBtn.onclick=()=>{
 /* NAV */
 document.querySelectorAll("[data-section]").forEach(b=>{
  b
+// 🔔 DEBUG START — force Santa after load
+setTimeout(() => {
+  flySanta();
+}, 3000);
