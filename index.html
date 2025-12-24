@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="background-container"></div>
-    
     <canvas id="snowCanvas"></canvas>
 
     <div class="controls">
@@ -18,11 +17,11 @@
     </div>
 
     <div class="main-content">
-        <h1>Merry Christmas!</h1>
+        <h1 class="holiday-title">Merry Christmas!</h1>
         
         <div class="game-container">
-            <h2 id="status">Player X's Turn</h2>
-            <div class="board" id="board">
+            <h2 id="statusText">Player X's Turn</h2>
+            <div class="board" id="cellContainer">
                 <div class="cell" data-index="0"></div>
                 <div class="cell" data-index="1"></div>
                 <div class="cell" data-index="2"></div>
@@ -33,13 +32,14 @@
                 <div class="cell" data-index="7"></div>
                 <div class="cell" data-index="8"></div>
             </div>
-            <button id="resetBtn">Restart Game</button>
+            <button id="restartBtn">Restart Game</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
