@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christmas 2025 ❄️</title>
+    <title>Christmas Snowfall ❄️</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,15 +12,15 @@
 
     <div class="controls">
         <button id="musicToggle">Music OFF</button>
-        <a href="notes.html" class="nav-btn">Notes 💌</a>
-        <a href="gallery.html" class="nav-btn">Gallery 📸</a>
+        <button onclick="showSection('home')">Home</button>
+        <button onclick="showSection('notes')">Notes 💌</button>
+        <button onclick="showSection('gallery')">Gallery 📸</button>
     </div>
 
-    <div class="main-content">
-        <h1 class="holiday-title">Merry Christmas!</h1>
-        
+    <div id="home" class="content-section">
+        <h1>Merry Christmas!</h1>
         <div class="game-container">
-            <h2 id="statusText">Player X's Turn</h2>
+            <h2 id="statusText">Your Turn (X)</h2>
             <div class="board" id="cellContainer">
                 <div class="cell" data-index="0"></div>
                 <div class="cell" data-index="1"></div>
@@ -36,9 +36,27 @@
         </div>
     </div>
 
+    <div id="notes" class="content-section" style="display:none;">
+        <h1>Holiday Notes</h1>
+        <div class="glass-card">
+            <p id="noteContent">Click for a holiday wish!</p>
+            <button onclick="getNewNote()">Open a Gift 🎁</button>
+        </div>
+    </div>
+
+    <div id="gallery" class="content-section" style="display:none;">
+        <h1>Holiday Gallery</h1>
+        <div class="gallery-grid">
+            <div class="photo-card"><img src="vibe1.jpg"><div class="caption">WARMTH ☕</div></div>
+            <div class="photo-card"><img src="vibe2.jpg"><div class="caption">JOY ✨</div></div>
+            <div class="photo-card"><img src="vibe3.jpg"><div class="caption">PEACE ❄️</div></div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
