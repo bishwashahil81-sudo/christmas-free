@@ -1,143 +1,68 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Pacifico&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(180deg, #fff5f5, #e8f5e9);
-  min-height: 100vh;
-  overflow-x: hidden;
-  color: #333;
-  animation: fadeIn 1s ease;
+    margin: 0;
+    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+    height: 100vh;
+    overflow: hidden;
+    font-family: sans-serif;
 }
 
-/* Page animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Sparkle Animation for Text */
+@keyframes sparkle {
+    0%, 100% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fdbb2d; }
+    50% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fdbb2d; }
 }
 
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 80px 20px;
-  text-align: center;
+.sparkle-text {
+    animation: sparkle 1.5s infinite;
+    color: #b21f1f;
 }
 
-/* Headings */
-h1 {
-  font-family: 'Pacifico', cursive;
-  font-size: clamp(2rem, 6vw, 3rem);
-  color: #c62828;
-  margin-bottom: 20px;
-  animation: float 3s ease-in-out infinite;
+#music-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 10px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 1px solid white;
 }
 
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+#message-card {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50vh;
+    background: white;
+    border-radius: 30px 30px 0 0;
+    border-top: 5px solid #fdbb2d; /* The Gold Ribbon */
+    transition: transform 0.5s ease-in-out;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-p {
-  font-size: clamp(1rem, 3.5vw, 1.15rem);
-  line-height: 1.8;
-  margin-bottom: 35px;
-  max-width: 700px;
-  margin-inline: auto;
+.card-hidden { transform: translateY(100%); }
+.card-visible { transform: translateY(0); }
+
+.snowflake {
+    position: fixed;
+    top: -10px;
+    color: white;
+    animation: fall linear forwards;
 }
 
-/* Buttons */
-.button {
-  display: inline-block;
-  padding: 14px 34px;
-  background: #c62828;
-  color: white;
-  text-decoration: none;
-  border-radius: 40px;
-  font-weight: 500;
-  transition: all 0.3s ease;
+@keyframes fall { to { transform: translateY(105vh); } }
+
+#open-card-btn {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4757;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 50px;
 }
 
-.button:hover {
-  background: #a61b1b;
-  transform: scale(1.08);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-
-/* Music toggle button (shares .button styles) */
-.music-toggle {
-  margin-left: 12px;
-  padding-left: 18px;
-  padding-right: 18px;
-  background: linear-gradient(90deg, #ff8a65, #c62828);
-}
-.music-toggle:hover {
-  transform: scale(1.06) rotate(-0.5deg);
-}
-
-/* Notes */
-.notes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 22px;
-  margin-top: 40px;
-}
-
-.note {
-  background: white;
-  padding: 28px;
-  border-radius: 22px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-  font-size: 1rem;
-  transition: 0.4s;
-  animation: pop 0.6s ease forwards;
-}
-
-@keyframes pop {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.note:hover {
-  transform: translateY(-8px) rotate(-1deg);
-}
-
-/* Gallery */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 18px;
-  margin-top: 40px;
-}
-
-.gallery img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 22px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  transition: 0.4s ease;
-}
-
-.gallery img:hover {
-  transform: scale(1.08);
-}
-
-/* Snow */
-.snow {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
-}
-
-/* Mobile tweaks */
-@media (max-width: 480px) {
-  .container {
-    padding: 60px 16px;
-  }
-}
