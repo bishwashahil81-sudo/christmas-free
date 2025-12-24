@@ -1,164 +1,39 @@
-/* ---------- DOM ---------- */
+/* DOM */
+const bg = document.querySelector(".background-container");
 const loader = document.getElementById("loader");
-const bgContainer = document.querySelector(".background-container");
 const bgm = document.getElementById("bgm");
 const musicBtn = document.getElementById("musicToggle");
+const winOverlay = document.getElementById("winOverlay");
 const giftBtn = document.getElementById("giftBtn");
 const noteText = document.getElementById("noteText");
-const winOverlay = document.getElementById("winOverlay");
 
-/* ---------- BACKGROUNDS ---------- */
-const backgrounds = ["vibe1.jpg", "vibe2.jpg", "vibe3.jpg"];
-let bgIndex = 0;
+/* BACKGROUND */
+const backgrounds = ["vibe1.jpg","vibe2.jpg","vibe3.jpg"];
+let bi=0;
+const img = new Image();
+img.src = backgrounds[0];
+img.onload = ()=>{ bg.style.backgroundImage=`url(${img.src})`; loader.style.display="none"; };
+setInterval(()=>{ bi=(bi+1)%backgrounds.length; bg.style.backgroundImage=`url(${backgrounds[bi]})`; },15000);
 
-const preload = new Image();
-preload.src = backgrounds[0];
-preload.onload = () => {
-  bgContainer.style.backgroundImage = `url(${backgrounds[0]})`;
-  loader.style.display = "none";
+/* MUSIC + WIND */
+let started=false, ctx, windGain;
+musicBtn.onclick=()=>{
+ if(!started){
+  bgm.play(); started=true; musicBtn.textContent="🔇 Mute";
+  ctx=new AudioContext();
+  const noise=ctx.createBufferSource();
+  const buf=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+  noise.buffer=buf; noise.loop=true;
+  windGain=ctx.createGain(); windGain.gain.value=.12;
+  noise.connect(windGain).connect(ctx.destination);
+  noise.start();
+ } else {
+  bgm.paused?bgm.play():bgm.pause();
+ }
 };
 
-setInterval(() => {
-  bgIndex = (bgIndex + 1) % backgrounds.length;
-  bgContainer.style.backgroundImage = `url(${backgrounds[bgIndex]})`;
-}, 15000);
-
-/* ---------- MUSIC (SAFE) ---------- */
-let musicStarted = false;
-
-musicBtn.onclick = () => {
-  if (!musicStarted) {
-    bgm.volume = 0.5;
-    bgm.play().then(() => {
-      musicStarted = true;
-      musicBtn.textContent = "🔇 Mute";
-    });
-  } else {
-    bgm.paused ? bgm.play() : bgm.pause();
-    musicBtn.textContent = bgm.paused ? "🎵 Music" : "🔇 Mute";
-  }
-};
-
-/* ---------- NAV ---------- */
-document.querySelectorAll("[data-section]").forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById(btn.dataset.section).classList.add("active");
-  };
-});
-
-/* ---------- SHARE ---------- */
-document.getElementById("shareBtn").onclick = () => {
-  navigator.share?.({
-    title: "Christmas 2025",
-    text: "Merry Christmas 🎄",
-    url: location.href
-  });
-};
-
-/* ---------- NOTES ---------- */
-giftBtn.onclick = () => {
-  noteText.classList.remove("fade");
-  void noteText.offsetWidth;
-  noteText.classList.add("fade");
-};
-
-/* ---------- TIC TAC TOE ---------- */
-let board = Array(9).fill(null);
-const cells = document.querySelectorAll(".cell");
-
-cells.forEach(cell => cell.onclick = () => {
-  const i = cell.dataset.i;
-  if (board[i]) return;
-  place(i, "X");
-  navigator.vibrate?.(30);
-  setTimeout(robotMove, 600);
-});
-
-function place(i, p) {
-  board[i] = p;
-  cells[i].textContent = p;
-  cells[i].classList.add(p);
-  if (checkWin(p)) win();
-}
-
-function robotMove() {
-  const i = board.findIndex(v => !v);
-  if (i !== -1) place(i, "O");
-}
-
-function checkWin(p) {
-  return [
-    [0,1,2],[3,4,5],[6,7,8],
-    [0,3,6],[1,4,7],[2,5,8],
-    [0,4,8],[2,4,6]
-  ].some(c => c.every(i => board[i] === p));
-}
-
-function win() {
-  winOverlay.style.display = "flex";
-  navigator.vibrate?.([200,100,200,100,300]);
-  snowBurst();
-}
-
-function resetGame() {
-  board.fill(null);
-  cells.forEach(c => c.textContent = c.className = "cell");
-  winOverlay.style.display = "none";
-}
-
-/* ---------- SNOW (DEPTH + WIND) ---------- */
-const canvas = document.getElementById("snow");
-const ctx = canvas.getContext("2d");
-
-function resize() {
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
-resize();
-window.onresize = resize;
-
-let wind = 0;
-setInterval(() => wind = (Math.random() - 0.5) * 2, 3000);
-
-const layers = [
-  createSnow(40, 0.4),
-  createSnow(80, 0.7),
-  createSnow(140, 1.1)
-];
-
-function createSnow(count, speed) {
-  return Array.from({ length: count }, () => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 2 + 1,
-    s: speed,
-    w: Math.random() * 1.5
-  }));
-}
-
-function snowBurst() {
-  layers.flat().forEach(f => {
-    f.y -= Math.random() * 300;
-    f.x += (Math.random() - 0.5) * 300;
-  });
-}
-
-(function animateSnow() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  layers.forEach(layer => {
-    layer.forEach(f => {
-      ctx.beginPath();
-      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-      ctx.fillStyle = "#fff";
-      ctx.fill();
-      f.y += f.s * 2;
-      f.x += wind + Math.sin(f.y * 0.01) * f.w;
-      if (f.y > canvas.height) {
-        f.y = -5;
-        f.x = Math.random() * canvas.width;
-      }
-    });
-  });
-  requestAnimationFrame(animateSnow);
-})();
+/* NAV */
+document.querySelectorAll("[data-section]").forEach(b=>{
+ b
