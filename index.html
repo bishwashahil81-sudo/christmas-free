@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Merry Christmas 🎄</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Festive Christmas</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Merry Christmas 🎄</h1>
-    <p>
-      May your Christmas be filled with warmth, soft lights, cozy moments,
-      and beautiful memories that stay forever.
-    </p>
-    <a href="notes.html" class="button">Open Notes 💌</a>
-    <button id="music-toggle" class="button music-toggle" aria-pressed="false">🔈 Music OFF</button>
-  </div>
 
-  <script src="script.js"></script>
+    <button id="music-btn">Music OFF</button>
+
+    <div id="open-card-btn">Tap to Open Card 🎁</div>
+
+    <div id="message-card" class="card-hidden">
+        <div class="handle"></div>
+        <div class="card-content">
+            <h2 class="sparkle-text">Merry Christmas! ✨</h2>
+            <p>May your holiday be filled with magic and light.</p>
+            <button id="close-card-btn">Close</button>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
 </body>
 </html>
+
