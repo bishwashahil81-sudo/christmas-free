@@ -1,73 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christmas 2025 ❄️</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Christmas 2025 ❄️</title>
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div id="loader">
-        <div class="spinner">❄️</div>
-        <p>Loading Christmas Magic...</p>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="snow-spinner"></div>
+  <p>Loading Christmas Magic...</p>
+</div>
+
+<!-- BACKGROUND -->
+<div class="background-container"></div>
+
+<!-- SNOW -->
+<canvas id="snow"></canvas>
+
+<!-- MUSIC -->
+<audio id="bgm" src="bgm.mp3" loop></audio>
+
+<!-- CONTROLS -->
+<div class="top-controls glass">
+  <button id="musicToggle">🎵 Music</button>
+  <button data-section="home">🏠 Home</button>
+  <button data-section="notes">🎁 Notes</button>
+  <button data-section="gallery">🖼️ Gallery</button>
+  <button id="shareBtn">📤 Share</button>
+</div>
+
+<!-- SECTIONS -->
+<main>
+
+  <!-- HOME -->
+  <section id="home" class="section active glass">
+    <h1>Merry Christmas 🎄</h1>
+    <p>Enjoy the peaceful snowfall</p>
+
+    <div id="game">
+      <div class="board">
+        <div class="cell" data-i="0"></div>
+        <div class="cell" data-i="1"></div>
+        <div class="cell" data-i="2"></div>
+        <div class="cell" data-i="3"></div>
+        <div class="cell" data-i="4"></div>
+        <div class="cell" data-i="5"></div>
+        <div class="cell" data-i="6"></div>
+        <div class="cell" data-i="7"></div>
+        <div class="cell" data-i="8"></div>
+      </div>
     </div>
+  </section>
 
-    <div class="background-container"></div>
-    <canvas id="snowCanvas"></canvas>
+  <!-- NOTES -->
+  <section id="notes" class="section glass">
+    <h2>Christmas Wishes 🎁</h2>
+    <p id="noteText">Click the gift!</p>
+    <button id="giftBtn">🎁 Open Gift</button>
+  </section>
 
-    <div class="controls">
-        <button id="musicToggle">Music OFF</button>
-        <button onclick="showSection('home')">Home</button>
-        <button onclick="showSection('notes')">Notes 💌</button>
-        <button onclick="showSection('gallery')">Gallery 📸</button>
+  <!-- GALLERY -->
+  <section id="gallery" class="section glass">
+    <h2>Gallery ❄️</h2>
+    <div class="grid">
+      <img src="vibe1.jpg" />
+      <img src="vibe1.jpg" />
+      <img src="vibe1.jpg" />
+      <img src="vibe1.jpg" />
     </div>
+  </section>
 
-    <div id="home" class="content-section">
-        <h1>Merry Christmas!</h1>
-        <div class="game-container">
-            <h2 id="statusText">Your Turn (X)</h2>
-            <div class="board">
-                <div class="cell" data-index="0"></div>
-                <div class="cell" data-index="1"></div>
-                <div class="cell" data-index="2"></div>
-                <div class="cell" data-index="3"></div>
-                <div class="cell" data-index="4"></div>
-                <div class="cell" data-index="5"></div>
-                <div class="cell" data-index="6"></div>
-                <div class="cell" data-index="7"></div>
-                <div class="cell" data-index="8"></div>
-            </div>
-            <button id="restartBtn">Restart Game</button>
-        </div>
-    </div>
+</main>
 
-    <div id="notes" class="content-section" style="display:none;">
-        <h1>Holiday Notes</h1>
-        <div class="glass-card">
-            <p id="noteContent" style="font-size: 1.2rem;">Click for a wish!</p>
-            <button onclick="getNewNote()">Open a Gift 🎁</button>
-        </div>
-    </div>
+<!-- WIN OVERLAY -->
+<div id="winOverlay" class="glass">
+  <h2>🎄 Merry Christmas! 🎄</h2>
+  <button onclick="resetGame()">Play Again</button>
+</div>
 
-    <div id="gallery" class="content-section" style="display:none;">
-        <h1>Holiday Gallery</h1>
-        <div class="gallery-grid">
-            <div class="photo-card"><img src="vibe1.jpg"></div>
-            <div class="photo-card"><img src="vibe2.jpg"></div>
-            <div class="photo-card"><img src="vibe3.jpg"></div>
-            <div class="photo-card"><img src="vibe4.jpg"></div>
-        </div>
-    </div>
-
-    <div id="winOverlay" class="overlay" style="display:none;">
-        <div class="win-box">
-            <h2 id="winTitle">You Won! 🎉</h2>
-            <p>Merry Christmas to you!</p>
-            <button onclick="closeWinPopup()">Play Again 🎁</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
-
