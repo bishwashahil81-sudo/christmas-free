@@ -125,3 +125,30 @@ function spawnGifts(){
 
   requestAnimationFrame(arguments.callee);
 })();
+/* SHARE */
+const shareBtn = document.getElementById("shareBtn");
+
+shareBtn.onclick = async () => {
+  const shareData = {
+    title: "Christmas 2025 🎄",
+    text: "Check out this festive Christmas page! ❄️🎅",
+    url: location.href
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      // User cancelled or error
+      console.log("Share cancelled or failed", err);
+    }
+  } else {
+    // Fallback for desktop and unsupported browsers
+    try {
+      await navigator.clipboard.writeText(location.href);
+      alert("🔗 Link copied to clipboard! Paste it anywhere 😄");
+    } catch (e) {
+      alert("😀 Unable to copy — please copy manually:\n" + location.href);
+    }
+  }
+};
