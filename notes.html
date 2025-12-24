@@ -7,75 +7,63 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         body { 
-            background-color: #0b132b; /* Keeping your midnight blue */
+            background-color: #0b132b; 
             color: white; 
             text-align: center; 
             font-family: 'Arial', sans-serif; 
             padding: 40px 20px;
             margin: 0;
-            overflow-x: hidden;
         }
-
-        /* The Christmas Tree with "Colorful Lights" glow */
         .tree {
             font-size: 80px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             filter: drop-shadow(0 0 10px #28a745);
             animation: lights 1.5s infinite alternate;
         }
-
         @keyframes lights {
             0% { filter: drop-shadow(0 0 5px #ff4d4d); }
-            50% { filter: drop-shadow(0 0 20px #ffff00); }
-            100% { filter: drop-shadow(0 0 5px #00ffcc); }
+            100% { filter: drop-shadow(0 0 20px #ffff00); }
         }
-
         .note-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #ff4d4d; /* Keeping the red border */
-            border-radius: 15px;
-            padding: 35px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px 20px;
             margin: 20px auto;
-            max-width: 400px;
-            min-height: 200px;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-
-        /* Dancing Script applied to both Merry and Christmas */
-        .main-heading {
+        .dancing-text {
             font-family: 'Dancing Script', cursive;
-            font-size: 3.2rem;
+            font-size: 3.5rem;
             color: #ff4d4d;
-            line-height: 1.1;
-            margin-bottom: 20px;
             display: block;
+            margin-bottom: 10px;
         }
-
-        .message {
-            font-size: 1.05rem;
-            letter-spacing: 1px;
-            line-height: 1.6;
+        .message-body {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            line-height: 1.8;
             text-transform: uppercase;
-            padding: 0 10px;
+            margin-top: 20px;
+            color: #e0e0e0;
         }
-
         .btn {
             background: #28a745;
             color: white;
             padding: 15px 30px;
-            border-radius: 25px;
+            border-radius: 50px;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
-            margin-top: 20px;
+            margin-top: 30px;
             font-weight: bold;
+            font-size: 1rem;
         }
-
-        .back-link { 
-            color: #00ffcc; 
-            text-decoration: none; 
+        .back { 
             display: block; 
             margin-top: 25px; 
-            font-size: 0.9rem;
+            color: #00ffcc; 
+            text-decoration: none;
         }
     </style>
 </head>
@@ -83,29 +71,28 @@
 
     <div class="tree">🎄</div>
 
-    <div class="note-card" id="note-display">
-        <span class="main-heading">Merry Christmas</span>
-        <div class="message">
+    <div class="note-card">
+        <span class="dancing-text">Merry Christmas</span>
+        <div class="message-body" id="note-text">
             WISHING YOU ALL THE HAPPINESS YOUR HEART CAN HOLD THIS CHRISTMAS AND BEYOND.
         </div>
     </div>
 
     <button class="btn" onclick="nextNote()">Open a New Note 🎁</button>
-    <a href="index.html" class="back-link">← Back to Game</a>
+    <a href="index.html" class="back">← Back to Snowfall Game</a>
 
     <script>
         const notes = [
             "WISHING YOU ALL THE HAPPINESS YOUR HEART CAN HOLD THIS CHRISTMAS AND BEYOND.",
-            "MAY THE HOLIDAY SEASON FILL YOUR HOME WITH JOY, YOUR HEART WITH LOVE, AND YOUR LIFE WITH LAUGHTER.",
-            "MAY THE MAGIC OF CHRISTMAS LIGHT UP YOUR LIFE AND BRING YOU ENDLESS PEACE AND PROSPERITY.",
-            "WISHING YOU A SEASON THAT IS MERRY AND BRIGHT WITH THE LIGHT OF LOVE AND HAPPINESS."
+            "MAY THE MAGIC OF THE HOLIDAYS BRING JOY TO YOUR HOME AND HEART.",
+            "MAY YOUR HOLIDAY SEASON BE FILLED WITH WARMTH, LOVE, AND LAUGHTER.",
+            "WISHING YOU A SEASON FILLED WITH PEACE, LOVE, AND JOY!"
         ];
 
         function nextNote() {
-            const messageDiv = document.querySelector('.message');
-            // Select a random note from the list
+            const display = document.getElementById('note-text');
             const randomNote = notes[Math.floor(Math.random() * notes.length)];
-            messageDiv.innerText = randomNote;
+            display.innerText = randomNote;
         }
     </script>
 </body>
