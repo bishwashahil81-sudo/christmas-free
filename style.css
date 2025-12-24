@@ -1,19 +1,34 @@
-* { box-sizing: border-box; font-family: system-ui; }
+* { box-sizing:border-box; font-family:system-ui; }
 body { margin:0; color:#fff; overflow:hidden; }
 
 .background-container {
   position:fixed; inset:0;
   background-size:cover;
   background-position:center;
-  filter: blur(8px) brightness(0.6);
+  filter:blur(8px) brightness(0.6);
   z-index:-2;
 }
+.background-container::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(
+    180deg,
+    rgba(0,255,200,0.25),
+    rgba(120,0,255,0.2),
+    transparent 60%);
+  animation:aurora 8s alternate infinite;
+}
+@keyframes aurora { from{opacity:.6} to{opacity:1} }
 
-canvas { position:fixed; inset:0; z-index:-1; }
+canvas {
+  position:fixed; inset:0;
+  z-index:-1;
+  filter:drop-shadow(0 0 6px white);
+}
 
 .glass {
-  backdrop-filter: blur(12px);
-  background: rgba(255,255,255,0.12);
+  backdrop-filter:blur(14px);
+  background:rgba(255,255,255,0.12);
   border-radius:16px;
   padding:15px;
 }
@@ -27,7 +42,7 @@ canvas { position:fixed; inset:0; z-index:-1; }
 }
 
 button {
-  background:rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.25);
   border:none; color:#fff;
   padding:8px 12px;
   border-radius:12px;
@@ -51,23 +66,20 @@ button {
   background:rgba(255,255,255,0.15);
   border-radius:12px;
 }
-
-.cell.X { color:red; text-shadow:0 0 10px red; }
-.cell.O { color:cyan; text-shadow:0 0 10px cyan; }
-
-#winOverlay {
-  display:none;
-  position:fixed; inset:0;
-  align-items:center; justify-content:center;
-  flex-direction:column;
-  z-index:10;
-}
+.cell.X { color:red; text-shadow:0 0 12px red; }
+.cell.O { color:cyan; text-shadow:0 0 12px cyan; }
 
 .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
 .grid img { width:100%; border-radius:12px; }
 
-.fade { animation:fade .6s ease; }
-@keyframes fade { from{opacity:0} to{opacity:1} }
+#winOverlay {
+  display:none;
+  position:fixed; inset:0;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:10;
+}
 
 /* Loader */
 #loader {
@@ -79,7 +91,6 @@ button {
   background:#000;
   z-index:20;
 }
-
 .snow-spinner {
   width:50px; height:50px;
   border:4px solid #fff;
@@ -92,12 +103,20 @@ button {
 /* Santa */
 #santa {
   position:fixed;
+  top:60px;
   left:-300px;
   width:260px;
   height:120px;
   background:url("https://i.imgur.com/9QK4FJZ.png") center/contain no-repeat;
-  pointer-events:none;
-  filter:drop-shadow(0 0 12px white);
+  filter:drop-shadow(0 0 16px white);
+  animation:santaFly 18s linear infinite;
+  z-index:3;
+}
+@keyframes santaFly {
+  0%{transform:translateX(-300px);opacity:0}
+  10%{opacity:1}
+  90%{opacity:1}
+  100%{transform:translateX(calc(100vw + 300px)) translateY(-80px);opacity:0}
 }
 .hand {
   position:absolute;
@@ -108,7 +127,26 @@ button {
   animation:wave 1s alternate infinite;
 }
 @keyframes wave { from{transform:rotate(10deg)} to{transform:rotate(-25deg)} }
-@keyframes santaFly {
-  from{transform:translateX(-300px);opacity:0}
-  to{transform:translateX(calc(100vw + 300px)) translateY(-80px);opacity:1}
+
+/* Stars & Gifts */
+.star {
+  position:fixed;
+  width:2px; height:80px;
+  background:linear-gradient(white,transparent);
+  transform:rotate(45deg);
+  animation:shoot 1.2s linear forwards;
+  z-index:4;
+}
+@keyframes shoot {
+  to{transform:translate(-300px,300px) rotate(45deg);opacity:0}
+}
+.gift {
+  position:fixed;
+  top:-40px;
+  font-size:28px;
+  animation:giftFall 3s linear forwards;
+  z-index:5;
+}
+@keyframes giftFall {
+  to{transform:translateY(110vh) rotate(360deg)}
 }
