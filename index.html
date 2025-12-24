@@ -3,108 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christmas Notes 💌</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            background-color: #0b132b; /* Matches your midnight blue theme */
-            color: white; 
-            text-align: center; 
-            font-family: 'Arial', sans-serif; 
-            padding: 40px 20px;
-            margin: 0;
-        }
-        .tree {
-            font-size: 80px;
-            margin-bottom: 10px;
-            /* Creates the glowing light effect you wanted */
-            filter: drop-shadow(0 0 10px #28a745);
-            animation: lights 1.5s infinite alternate;
-        }
-        @keyframes lights {
-            0% { filter: drop-shadow(0 0 5px #ff4d4d); }
-            100% { filter: drop-shadow(0 0 20px #ffff00); }
-        }
-        .note-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 40px 20px;
-            margin: 20px auto;
-            max-width: 450px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .dancing-text {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            color: #ff4d4d; /* Festive red */
-            display: block;
-            margin-bottom: 10px;
-        }
-        .message-body {
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            line-height: 1.8;
-            text-transform: uppercase; /* Matches your reference image style */
-            margin-top: 20px;
-            color: #e0e0e0;
-        }
-        .btn {
-            background: #28a745;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            margin-top: 30px;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-        .btn:hover {
-            background: #218838;
-            transform: scale(1.05);
-        }
-        .back { 
-            display: block; 
-            margin-top: 25px; 
-            color: #00ffcc; 
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-    </style>
+    <title>Christmas Snowfall ❄️</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="tree">🎄</div>
-
-    <div class="note-card">
-        <span class="dancing-text">Merry Christmas</span>
-        
-        <div class="message-body" id="note-text">
-            WISHING YOU ALL THE HAPPINESS YOUR HEART CAN HOLD THIS CHRISTMAS AND BEYOND.
-        </div>
+    <div class="controls">
+        <button id="musicToggle">Music OFF</button>
+        <a href="notes.html" class="nav-btn">Christmas Notes 💌</a>
+        <a href="gallery.html" class="nav-btn">Gallery 📸</a>
     </div>
 
-    <button class="btn" onclick="nextNote()">Open a New Note 🎁</button>
-    
-    <a href="index.html" class="back">← Back to Snowfall Game</a>
+    <canvas id="snowCanvas"></canvas>
 
-    <script>
-        // These are the messages that change when you click the button
-        const notes = [
-            "WISHING YOU ALL THE HAPPINESS YOUR HEART CAN HOLD THIS CHRISTMAS AND BEYOND.",
-            "MAY THE HOLIDAY SEASON FILL YOUR HOME WITH JOY, YOUR HEART WITH LOVE, AND YOUR LIFE WITH LAUGHTER.",
-            "MAY THE MAGIC OF THE HOLIDAYS BRING JOY TO YOUR HOME AND HEART.",
-            "WISHING YOU A SEASON FILLED WITH LOVE, PEACE, AND HAPPINESS!"
-        ];
+    <div class="main-content">
+        <h1>Merry Christmas!</h1>
+        <p>Enjoy the peaceful snowfall.</p>
+    </div>
 
-        function nextNote() {
-            const display = document.getElementById('note-text');
-            // Selects a random message from the list above
-            const randomNote = notes[Math.floor(Math.random() * notes.length)];
-            display.innerText = randomNote;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
+
