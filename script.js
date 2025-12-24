@@ -1,220 +1,127 @@
-/* ================= BACKGROUND ================= */
-const backgrounds = ["vibe1.jpg","vibe2.jpg","vibe3.jpg"];
-let bgIndex = 0;
+/* BACKGROUND */
+const backgrounds=["vibe1.jpg","vibe2.jpg","vibe3.jpg"];
+let bgIndex=0;
+setInterval(()=>{
+  bgIndex=(bgIndex+1)%backgrounds.length;
+  document.querySelector(".background-container").style.backgroundImage=
+  `url(${backgrounds[bgIndex]})`;
+},15000);
 
-setInterval(() => {
-  bgIndex = (bgIndex + 1) % backgrounds.length;
-  document.querySelector(".background-container").style.backgroundImage =
-    `url(${backgrounds[bgIndex]})`;
-}, 15000);
+/* LOADER */
+window.onload=()=>loader.style.display="none";
 
-/* ================= LOADER ================= */
-window.onload = () => {
-  document.getElementById("loader").style.display = "none";
+/* MUSIC */
+let started=false;
+musicToggle.onclick=()=>{
+  if(!started){bgm.volume=0.5;bgm.play();started=true}
+  else bgm.paused?bgm.play():bgm.pause();
 };
 
-/* ================= MUSIC ================= */
-const bgm = document.getElementById("bgm");
-const musicToggle = document.getElementById("musicToggle");
-let started = false;
-
-musicToggle.onclick = () => {
-  if (!started) {
-    bgm.volume = 0.5;
-    bgm.play().catch(()=>{});
-    started = true;
-    musicToggle.textContent = "🔇 Mute";
-  } else {
-    bgm.paused ? bgm.play() : bgm.pause();
-  }
-};
-
-/* ================= NAV ================= */
-document.querySelectorAll("[data-section]").forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById(btn.dataset.section).classList.add("active");
+/* NAV */
+document.querySelectorAll("[data-section]").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(b.dataset.section).classList.add("active");
   };
 });
 
-/* ================= SHARE ================= */
-shareBtn.onclick = () => {
-  navigator.share?.({
-    title: "Christmas 2025",
-    url: location.href
-  });
-};
+/* GAME */
+let board=Array(9).fill(null),gameOver=false;
+const cells=document.querySelectorAll(".cell");
 
-/* ================= NOTES ================= */
-giftBtn.onclick = () => {
-  noteText.classList.add("fade");
-};
-
-/* ================= GAME ================= */
-let board = Array(9).fill(null);
-let gameOver = false;
-const cells = document.querySelectorAll(".cell");
-
-cells.forEach(cell => cell.onclick = () => {
-  if (gameOver) return;
-  const i = cell.dataset.i;
-  if (board[i]) return;
-
-  place(i, "X");
-  setTimeout(() => !gameOver && robotMove(), 600);
+cells.forEach(c=>c.onclick=()=>{
+  if(gameOver||board[c.dataset.i])return;
+  place(c.dataset.i,"X");
+  setTimeout(()=>!gameOver&&robot(),600);
 });
 
-function place(i, p) {
-  board[i] = p;
-  cells[i].textContent = p;
+function place(i,p){
+  board[i]=p;
+  cells[i].textContent=p;
   cells[i].classList.add(p);
-  if (checkWin(p)) win();
+  if(winCheck(p))win();
 }
-
-function robotMove() {
-  const i = board.findIndex(v => !v);
-  if (i !== -1) place(i, "O");
+function robot(){
+  const i=board.findIndex(v=>!v);
+  if(i>-1)place(i,"O");
 }
-
-function checkWin(p) {
-  return [
-    [0,1,2],[3,4,5],[6,7,8],
-    [0,3,6],[1,4,7],[2,5,8],
-    [0,4,8],[2,4,6]
-  ].some(c => c.every(i => board[i] === p));
+function winCheck(p){
+  return[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+  .some(c=>c.every(i=>board[i]===p));
 }
-
-/* ================= WIN ================= */
-function win() {
-  gameOver = true;
-  winOverlay.style.display = "flex";
-  navigator.vibrate?.([200,100,200,100,300]);
+function win(){
+  gameOver=true;
+  winOverlay.style.display="flex";
+  navigator.vibrate?.([200,100,200]);
   spawnGifts();
 }
-
-function resetGame() {
-  board = Array(9).fill(null);
-  gameOver = false;
-  cells.forEach(c => {
-    c.textContent = "";
-    c.className = "cell";
-  });
-  gifts = [];
-  winOverlay.style.display = "none";
+function resetGame(){
+  board.fill(null);gameOver=false;
+  cells.forEach(c=>{c.textContent="";c.className="cell"});
+  gifts=[];winOverlay.style.display="none";
 }
 
-/* ================= SNOW ================= */
-const snowCanvas = document.getElementById("snow");
-const sctx = snowCanvas.getContext("2d");
-
-function resizeSnow() {
-  snowCanvas.width = innerWidth;
-  snowCanvas.height = innerHeight;
-}
-resizeSnow();
-addEventListener("resize", resizeSnow);
-
-let wind = 0;
-setInterval(() => wind = (Math.random() - 0.5) * 2, 3000);
-
-const snow = Array.from({ length: 120 }, () => ({
-  x: Math.random() * snowCanvas.width,
-  y: Math.random() * snowCanvas.height,
-  r: Math.random() * 2 + 1,
-  s: Math.random() + 0.5
-}));
-
-(function snowLoop() {
-  sctx.clearRect(0,0,snowCanvas.width,snowCanvas.height);
-  snow.forEach(f => {
+/* SNOW */
+const sc=document.getElementById("snow"),sctx=sc.getContext("2d");
+function rs(){sc.width=innerWidth;sc.height=innerHeight}
+rs();onresize=rs;
+const snow=Array.from({length:120},()=>({x:Math.random()*sc.width,y:Math.random()*sc.height,r:Math.random()*2+1,s:Math.random()+.5}));
+(function(){
+  sctx.clearRect(0,0,sc.width,sc.height);
+  snow.forEach(f=>{
     sctx.beginPath();
-    sctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-    sctx.fillStyle = "#fff";
-    sctx.fill();
-    f.y += f.s * 2;
-    f.x += wind;
-    if (f.y > snowCanvas.height) {
-      f.y = -5;
-      f.x = Math.random() * snowCanvas.width;
-    }
+    sctx.arc(f.x,f.y,f.r,0,6.28);
+    sctx.fillStyle="#fff";sctx.fill();
+    f.y+=f.s*2;if(f.y>sc.height){f.y=-5;f.x=Math.random()*sc.width}
   });
-  requestAnimationFrame(snowLoop);
+  requestAnimationFrame(arguments.callee);
 })();
 
-/* ================= EFFECTS (STARS + AURORA + GIFTS) ================= */
-const fx = document.getElementById("effects");
-const fctx = fx.getContext("2d");
-
-function resizeFx() {
-  fx.width = innerWidth;
-  fx.height = innerHeight;
-}
-resizeFx();
-addEventListener("resize", resizeFx);
+/* EFFECTS */
+const fx=document.getElementById("effects"),fctx=fx.getContext("2d");
+fx.width=innerWidth;fx.height=innerHeight;
 
 /* Stars */
-const stars = Array.from({ length: 60 }, () => ({
-  x: Math.random() * fx.width,
-  y: Math.random() * fx.height,
-  r: Math.random() * 1.5 + 0.5,
-  s: Math.random() * 0.6 + 0.2
-}));
+const stars=Array.from({length:60},()=>({x:Math.random()*fx.width,y:Math.random()*fx.height,s:Math.random()+.2}));
 
 /* Gifts */
-let gifts = [];
-function spawnGifts() {
-  gifts = Array.from({ length: 20 }, () => ({
-    x: Math.random() * fx.width,
-    y: -20,
-    s: Math.random() * 2 + 1,
-    r: Math.random() * Math.PI
-  }));
+let gifts=[];
+function spawnGifts(){
+  gifts=Array.from({length:20},()=>({x:Math.random()*fx.width,y:-20,s:Math.random()*2+1,r:Math.random()*6.28}));
 }
 
-/* Aurora */
-let auroraOffset = 0;
-
-(function effectsLoop() {
+(function(){
   fctx.clearRect(0,0,fx.width,fx.height);
 
   /* Aurora */
-  auroraOffset += 0.3;
-  const grad = fctx.createLinearGradient(0,0,fx.width,0);
-  grad.addColorStop(0,"rgba(0,255,150,0)");
-  grad.addColorStop(0.5,"rgba(0,255,150,0.15)");
-  grad.addColorStop(1,"rgba(0,255,150,0)");
-  fctx.fillStyle = grad;
-  fctx.fillRect(-fx.width/2 + auroraOffset,0,fx.width*2,fx.height);
+  const g=fctx.createLinearGradient(0,0,fx.width,0);
+  g.addColorStop(0,"rgba(0,255,150,0)");
+  g.addColorStop(.5,"rgba(0,255,150,.15)");
+  g.addColorStop(1,"rgba(0,255,150,0)");
+  fctx.fillStyle=g;
+  fctx.fillRect(-fx.width/2,0,fx.width*2,fx.height);
 
   /* Stars */
-  stars.forEach(st => {
+  stars.forEach(s=>{
     fctx.beginPath();
-    fctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
-    fctx.fillStyle = "rgba(255,230,150,0.9)";
-    fctx.shadowBlur = 10;
-    fctx.shadowColor = "rgba(255,230,150,0.9)";
+    fctx.arc(s.x,s.y,1.5,0,6.28);
+    fctx.fillStyle="rgba(255,230,150,.9)";
     fctx.fill();
-    st.y += st.s;
-    if (st.y > fx.height) {
-      st.y = -5;
-      st.x = Math.random() * fx.width;
-    }
+    s.y+=s.s;if(s.y>fx.height){s.y=0;s.x=Math.random()*fx.width}
   });
 
   /* Gifts */
-  gifts.forEach(g => {
+  gifts.forEach(g=>{
     fctx.save();
-    fctx.translate(g.x, g.y);
+    fctx.translate(g.x,g.y);
     fctx.rotate(g.r);
-    fctx.fillStyle = "red";
-    fctx.fillRect(-6,-6,12,12);
-    fctx.fillStyle = "gold";
-    fctx.fillRect(-2,-8,4,16);
+    fctx.fillStyle="red";
+    fctx.fillRect(-8,-8,16,16);
+    fctx.fillStyle="gold";
+    fctx.fillRect(-3,-10,6,20);
     fctx.restore();
-    g.y += g.s;
+    g.y+=g.s;
   });
 
-  requestAnimationFrame(effectsLoop);
+  requestAnimationFrame(arguments.callee);
 })();
-  
-  
