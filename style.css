@@ -2,11 +2,18 @@ body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
 
 /* SANTA BACKGROUND */
 .background-container {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: url('https://cdn.pixabay.com/photo/2017/11/20/15/43/santa-claus-2965823_1280.jpg') no-repeat center center/cover;
-    filter: blur(3px) brightness(65%);
-    z-index: -2; transform: scale(1.05);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* New reliable High-Definition Santa link */
+    background: #0a192f url('https://images.pexels.com/photos/7147314/pexels-photo-7147314.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center/cover;
+    filter: blur(4px) brightness(55%);
+    z-index: -2;
+    transform: scale(1.1); /* Prevents white edges from the blur */
 }
+
 
 /* LOADER */
 #loader { position: fixed; width: 100%; height: 100%; background: #050a18; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; color: white; transition: 0.5s; }
