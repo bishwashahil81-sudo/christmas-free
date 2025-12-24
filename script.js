@@ -99,3 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMusicButton();
   }
 });
+const music = document.getElementById('bgm');
+const btn = document.getElementById('music-btn');
+btn.addEventListener('click', () => {
+    if (music.paused) {
+        music.play();
+        btn.innerText = "Music ON 🔊";
+    } else {
+        music.pause();
+        btn.innerText = "Music OFF 🔇";
+    }
+});
