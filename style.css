@@ -1,152 +1,122 @@
-* { box-sizing:border-box; font-family:system-ui; }
-body { margin:0; color:#fff; overflow:hidden; }
+/* =====================
+   GLOBAL
+===================== */
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+}
 
+body {
+  margin: 0;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* =====================
+   BACKGROUND + AURORA
+===================== */
 .background-container {
-  position:fixed; inset:0;
-  background-size:cover;
-  background-position:center;
-  filter:blur(8px) brightness(0.6);
-  z-index:-2;
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) brightness(0.6);
+  z-index: -3;
 }
-.background-container::after{
-  content:"";
-  position:absolute; inset:0;
-  background:linear-gradient(
+
+.background-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
     180deg,
-    rgba(0,255,200,0.25),
-    rgba(120,0,255,0.2),
-    transparent 60%);
-  animation:aurora 8s alternate infinite;
+    rgba(0, 255, 200, 0.28),
+    rgba(120, 0, 255, 0.22),
+    transparent 60%
+  );
+  mix-blend-mode: screen;
+  animation: aurora 8s ease-in-out infinite alternate;
 }
-@keyframes aurora { from{opacity:.6} to{opacity:1} }
 
+@keyframes aurora {
+  from { opacity: 0.6; }
+  to   { opacity: 1; }
+}
+
+/* =====================
+   SNOW CANVAS
+===================== */
 canvas {
-  position:fixed; inset:0;
-  z-index:-1;
-  filter:drop-shadow(0 0 6px white);
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  filter: drop-shadow(0 0 6px white);
 }
 
+/* =====================
+   GLASS UI
+===================== */
 .glass {
-  backdrop-filter:blur(14px);
-  background:rgba(255,255,255,0.12);
-  border-radius:16px;
-  padding:15px;
+  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 15px;
 }
 
+/* =====================
+   TOP CONTROLS
+===================== */
 .top-controls {
-  position:fixed;
-  top:10px; left:50%;
-  transform:translateX(-50%);
-  display:flex; gap:6px;
-  z-index:5;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 10;
 }
 
 button {
-  background:rgba(255,255,255,0.25);
-  border:none; color:#fff;
-  padding:8px 12px;
-  border-radius:12px;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
-.section { display:none; margin:80px auto; max-width:380px; }
-.section.active { display:block; }
+/* =====================
+   SECTIONS
+===================== */
+.section {
+  display: none;
+  margin: 80px auto;
+  max-width: 380px;
+}
 
+.section.active {
+  display: block;
+}
+
+/* =====================
+   TIC TAC TOE
+===================== */
 .board {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
 }
 
 .cell {
-  height:90px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:40px;
-  background:rgba(255,255,255,0.15);
-  border-radius:12px;
-}
-.cell.X { color:red; text-shadow:0 0 12px red; }
-.cell.O { color:cyan; text-shadow:0 0 12px cyan; }
-
-.grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
-.grid img { width:100%; border-radius:12px; }
-
-#winOverlay {
-  display:none;
-  position:fixed; inset:0;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:10;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
 }
 
-/* Loader */
-#loader {
-  position:fixed; inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  background:#000;
-  z-index:20;
-}
-.snow-spinner {
-  width:50px; height:50px;
-  border:4px solid #fff;
-  border-top-color:transparent;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-}
-@keyframes spin { to{transform:rotate(360deg)} }
-
-/* Santa */
-#santa {
-  position:fixed;
-  top:60px;
-  left:-300px;
-  width:260px;
-  height:120px;
-  background:url("https://i.imgur.com/9QK4FJZ.png") center/contain no-repeat;
-  filter:drop-shadow(0 0 16px white);
-  animation:santaFly 18s linear infinite;
-  z-index:3;
-}
-@keyframes santaFly {
-  0%{transform:translateX(-300px);opacity:0}
-  10%{opacity:1}
-  90%{opacity:1}
-  100%{transform:translateX(calc(100vw + 300px)) translateY(-80px);opacity:0}
-}
-.hand {
-  position:absolute;
-  right:55px; top:45px;
-  width:30px; height:30px;
-  background:white;
-  border-radius:50%;
-  animation:wave 1s alternate infinite;
-}
-@keyframes wave { from{transform:rotate(10deg)} to{transform:rotate(-25deg)} }
-
-/* Stars & Gifts */
-.star {
-  position:fixed;
-  width:2px; height:80px;
-  background:linear-gradient(white,transparent);
-  transform:rotate(45deg);
-  animation:shoot 1.2s linear forwards;
-  z-index:4;
-}
-@keyframes shoot {
-  to{transform:translate(-300px,300px) rotate(45deg);opacity:0}
-}
-.gift {
-  position:fixed;
-  top:-40px;
-  font-size:28px;
-  animation:giftFall 3s linear forwards;
-  z-index:5;
-}
-@keyframes giftFall {
-  to{transform:translateY(110vh) rotate(360deg)}
-}
+.cell.X {
+  color: red;
+  text-shadow: 0 0
