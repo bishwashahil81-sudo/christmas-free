@@ -15,14 +15,39 @@ setInterval(() => {
     `url(${backgrounds[bgIndex]})`;
 }, 15000);
 
-/* ---------- MUSIC ---------- */
+/* ---------- MUSIC (SAFE) ---------- */
 const bgm = document.getElementById("bgm");
-document.getElementById("musicToggle").onclick = () => {
-  bgm.paused ? bgm.play() : bgm.pause();
-};
+const musicBtn = document.getElementById("musicToggle");
 
+let musicStarted = false;
+
+musicBtn.addEventListener("click", () => {
+  if (!musicStarted) {
+    bgm.volume = 0.5;
+    bgm.play()
+      .then(() => {
+        musicStarted = true;
+        musicBtn.textContent = "🔇 Mute";
+      })
+      .catch(err => {
+        console.log("Music blocked:", err);
+        alert("Tap once more to enable music 🎵");
+      });
+  } else {
+    if (bgm.paused) {
+      bgm.play();
+      musicBtn.textContent = "🔇 Mute";
+    } else {
+      bgm.pause();
+      musicBtn.textContent = "🎵 Music";
+    }
+  }
+});
 /* ---------- NAV ---------- */
-document.querySelectorAll("[data-section]").forEach(btn => {
+
+*/
+
+doc..en..querySelect("[data-section]").forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
     document.getElementById(btn.dataset.section).classList.add("active");
