@@ -1,167 +1,118 @@
-* {
-  box-sizing: border-box;
-  font-family: system-ui, sans-serif;
+* { box-sizing:border-box; font-family:system-ui; }
+body { margin:0; color:#fff; overflow:hidden; }
+
+.background-container{
+  position:fixed; inset:0;
+  background:url("vibe1.jpg") center/cover no-repeat;
+  filter:blur(8px) brightness(0.6);
+  z-index:-2;
 }
 
-body {
-  margin: 0;
-  color: #fff;
-  overflow: hidden;
+canvas{ position:fixed; inset:0; z-index:-1; }
+
+.glass{
+  backdrop-filter:blur(12px);
+  background:rgba(255,255,255,0.12);
+  border-radius:16px;
+  padding:15px;
 }
 
-/* BACKGROUND */
-.background-container {
-  position: fixed;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  filter: blur(8px) brightness(0.6);
-  z-index: -3;
+.top-controls{
+  position:fixed; top:10px; left:50%;
+  transform:translateX(-50%);
+  display:flex; gap:6px; z-index:5;
 }
 
-/* SNOW CANVAS */
-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
+button{
+  background:rgba(255,255,255,0.2);
+  border:none; color:#fff;
+  padding:8px 12px;
+  border-radius:12px;
 }
 
-/* GLASS UI */
-.glass {
-  backdrop-filter: blur(14px);
-  background: rgba(255,255,255,0.15);
-  border-radius: 16px;
-  padding: 15px;
+.section{ display:none; margin:90px auto; max-width:380px; }
+.section.active{ display:block; }
+
+.board{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
 }
 
-/* CONTROLS */
-.top-controls {
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-  z-index: 5;
+.cell{
+  height:90px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  background:rgba(255,255,255,0.15);
+  border-radius:12px;
 }
 
-button {
-  background: rgba(255,255,255,0.25);
-  border: none;
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 12px;
+.cell.X{ color:red; text-shadow:0 0 12px red; }
+.cell.O{ color:cyan; text-shadow:0 0 12px cyan; }
+
+#winOverlay{
+  display:none;
+  position:fixed; inset:0;
+  align-items:center; justify-content:center;
+  flex-direction:column;
+  z-index:10;
 }
 
-/* SECTIONS */
-.section {
-  display: none;
-  margin: 90px auto;
-  max-width: 380px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
 }
-.section.active {
-  display: block;
+.grid img{ width:100%; border-radius:12px; }
+
+#loader{
+  position:fixed; inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  background:#000;
+  z-index:20;
 }
 
-/* GAME */
-.board {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 6px;
-}
-.cell {
-  height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 12px;
-}
-.cell.X { color: red; text-shadow: 0 0 12px red; }
-.cell.O { color: cyan; text-shadow: 0 0 12px cyan; }
-
-/* WIN OVERLAY */
-#winOverlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  z-index: 10;
+.snow-spinner{
+  width:50px; height:50px;
+  border:4px solid #fff;
+  border-top-color:transparent;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
 }
 
-/* GALLERY */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 8px;
+@keyframes spin{ to{ transform:rotate(360deg) } }
+
+/* Santa */
+#santa{
+  position:fixed;
+  top:20%;
+  left:-300px;
+  width:260px;
+  height:140px;
+  background:url("Santa.png") center/contain no-repeat;
+  animation:santaFly 18s linear infinite;
+  filter:drop-shadow(0 0 14px white);
+  z-index:4;
 }
-.grid img {
-  width: 100%;
-  border-radius: 12px;
+.hand{
+  position:absolute;
+  right:60px; top:55px;
+  width:25px; height:25px;
+  background:white;
+  border-radius:50%;
+  animation:wave 1s alternate infinite;
 }
 
-/* LOADER */
-#loader {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background: #000;
-  z-index: 20;
+@keyframes wave{
+  from{ transform:rotate(10deg) }
+  to{ transform:rotate(-25deg) }
 }
-.snow-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid #fff;
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* 🎅 SANTA (LOCAL IMAGE) */
-#santa {
-  position: fixed;
-  top: 20%;
-  left: -300px;
-  width: 260px;
-  height: 140px;
-  background: url("Santa.png") center / contain no-repeat;
-  pointer-events: none;
-  z-index: 4;
-  filter: drop-shadow(0 0 14px white);
-  animation: santaFly 18s linear infinite;
-}
-
-/* SANTA HAND WAVE */
-#santa .hand {
-  position: absolute;
-  right: 45px;
-  top: 55px;
-  width: 28px;
-  height: 28px;
-  background: white;
-  border-radius: 50%;
-  animation: wave 1s ease-in-out infinite;
-}
-
-@keyframes wave {
-  from { transform: rotate(15deg); }
-  to { transform: rotate(-25deg); }
-}
-
-@keyframes santaFly {
-  from {
-    transform: translateX(-300px) translateY(0);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(calc(100vw + 300px)) translateY(-120px);
-    opacity: 1;
-  }
+@keyframes santaFly{
+  from{ transform:translateX(-300px); opacity:0 }
+  to{ transform:translateX(calc(100vw + 300px)); opacity:1 }
 }
