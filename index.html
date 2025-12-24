@@ -3,25 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christmas Snowfall ❄️</title>
+    <title>Christmas 2025 ❄️</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="background-container"></div>
+    <canvas id="snowCanvas"></canvas>
+
     <div class="controls">
         <button id="musicToggle">Music OFF</button>
-        <a href="notes.html" class="nav-btn">Christmas Notes 💌</a>
+        <a href="notes.html" class="nav-btn">Notes 💌</a>
         <a href="gallery.html" class="nav-btn">Gallery 📸</a>
     </div>
 
-    <canvas id="snowCanvas"></canvas>
-
     <div class="main-content">
         <h1>Merry Christmas!</h1>
-        <p>Enjoy the peaceful snowfall.</p>
+        
+        <div class="game-container">
+            <h2 id="status">Your Turn (X)</h2>
+            <div class="board" id="board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+            <button id="resetBtn">Restart Game</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
