@@ -8,16 +8,20 @@
 </head>
 <body>
 
+<!-- Loader -->
 <div id="loader">
   <div class="snow-spinner"></div>
   <p>Loading Christmas Magic...</p>
 </div>
 
-<div class="background-container"></div>
+<!-- Background + Effects -->
+<div class="background-container" style="background-image:url('vibe1.jpg')"></div>
 <canvas id="snow"></canvas>
 
-<audio id="bgm" src="bgm.mp3" loop></audio>
+<!-- Music -->
+<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
 
+<!-- Controls -->
 <div class="top-controls glass">
   <button id="musicToggle">🎵 Music</button>
   <button data-section="home">🏠 Home</button>
@@ -26,6 +30,7 @@
   <button id="shareBtn">📤 Share</button>
 </div>
 
+<!-- Sections -->
 <main>
 <section id="home" class="section active glass">
   <h1>Merry Christmas 🎄</h1>
@@ -47,10 +52,10 @@
 <section id="notes" class="section glass">
 <h2>Christmas Wishes 🎁</h2>
 <p id="noteText">
-May this Christmas fill your heart with warmth, peace, and endless joy.
-May every snowflake remind you of love, every light bring hope,
-and every moment gift you happiness beyond measure.
-Merry Christmas and a blessed New Year 🎄✨
+May this Christmas wrap your life in peace, warmth, and endless blessings.
+May love guide your days, hope light your nights,
+and joy follow you wherever you go.
+Merry Christmas and a beautiful New Year 🎄✨
 </p>
 <button id="giftBtn">🎁 Open Gift</button>
 </section>
@@ -66,12 +71,16 @@ Merry Christmas and a blessed New Year 🎄✨
 </section>
 </main>
 
+<!-- Win Overlay -->
 <div id="winOverlay" class="glass">
 <h2>🎄 Merry Christmas! 🎄</h2>
 <button onclick="resetGame()">Play Again</button>
 </div>
 
-<div id="santa"><div class="hand"></div></div>
+<!-- Santa -->
+<div id="santa">
+  <div class="hand"></div>
+</div>
 
 <script src="script.js"></script>
 </body>
