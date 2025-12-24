@@ -141,3 +141,24 @@ p {
     padding: 60px 16px;
   }
 }
+/* Midnight Sky Theme */
+body {
+    background: radial-gradient(circle at top, #1a1a2e, #16213e, #0f3460); /* Dark blue night */
+    overflow-x: hidden;
+}
+
+/* Moving Clouds */
+.cloud {
+    position: absolute;
+    width: 200px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    filter: blur(20px);
+    animation: moveClouds 20s linear infinite;
+}
+
+@keyframes moveClouds {
+    from { left: -250px; }
+    to { left: 100vw; }
+}
