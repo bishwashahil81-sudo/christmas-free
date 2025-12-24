@@ -97,16 +97,39 @@ function play(index) {
 
 function checkWin() {
   const winConditions = [
-    [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]
+    [0,1,2], [3,4,5], [6,7,8], // Rows
+    [0,3,6], [1,4,7], [2,5,8], // Columns
+    [0,4,8], [2,4,6]           // Diagonals
   ];
-  let won = winConditions.some(c => c.every(i => board[i] === "X"));
 
-  if (won || board.filter(x => x !== "").length >= 5) {
+  // Only trigger the win if 'X' (the player) connects three
+  let playerWon = winConditions.some(condition => {
+    return condition.every(index => board[index] === "X");
+  });
+
+  if (playerWon) {
     const reward = document.getElementById('reward');
     if(reward) reward.style.display = 'block';
     gameActive = false;
     return true;
   }
+
+  // If the board is full and no one won, let them retry
+  if (!board.includes("") && !playerWon) {
+    alert("It's a draw! Try one more time to unlock your gift! 🎄");
+    resetGame();
+    return false;
+  }
+
   return false;
+}
+
+// This clears the board so they can play again if they draw
+function resetGame() {
+    board = ["", "", "", "", "", "", "", "", ""];
+    gameActive = true;
+    document.querySelectorAll('.cell').forEach(cell => {
+        cell.innerText = "";
+    });
 }
 
