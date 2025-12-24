@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christmas Snowfall ❄️</title>
+    <title>Christmas 2025 ❄️</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="loader">
+        <div class="spinner">❄️</div>
+        <p>Loading Christmas Magic...</p>
+    </div>
+
     <div class="background-container"></div>
     <canvas id="snowCanvas"></canvas>
 
@@ -21,7 +26,7 @@
         <h1>Merry Christmas!</h1>
         <div class="game-container">
             <h2 id="statusText">Your Turn (X)</h2>
-            <div class="board" id="cellContainer">
+            <div class="board">
                 <div class="cell" data-index="0"></div>
                 <div class="cell" data-index="1"></div>
                 <div class="cell" data-index="2"></div>
@@ -39,7 +44,7 @@
     <div id="notes" class="content-section" style="display:none;">
         <h1>Holiday Notes</h1>
         <div class="glass-card">
-            <p id="noteContent">Click for a holiday wish!</p>
+            <p id="noteContent" style="font-size: 1.2rem;">Click for a wish!</p>
             <button onclick="getNewNote()">Open a Gift 🎁</button>
         </div>
     </div>
@@ -47,18 +52,22 @@
     <div id="gallery" class="content-section" style="display:none;">
         <h1>Holiday Gallery</h1>
         <div class="gallery-grid">
-            <div class="photo-card"><img src="vibe1.jpg"><div class="caption">WARMTH ☕</div></div>
-            <div class="photo-card"><img src="vibe2.jpg"><div class="caption">JOY ✨</div></div>
-            <div class="photo-card"><img src="vibe3.jpg"><div class="caption">PEACE ❄️</div></div>
+            <div class="photo-card"><img src="vibe1.jpg"></div>
+            <div class="photo-card"><img src="vibe2.jpg"></div>
+            <div class="photo-card"><img src="vibe3.jpg"></div>
+            <div class="photo-card"><img src="vibe4.jpg"></div>
+        </div>
+    </div>
+
+    <div id="winOverlay" class="overlay" style="display:none;">
+        <div class="win-box">
+            <h2 id="winTitle">You Won! 🎉</h2>
+            <p>Merry Christmas to you!</p>
+            <button onclick="closeWinPopup()">Play Again 🎁</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
 
