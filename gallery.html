@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Christmas Gallery 🎄</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Gallery 📸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0b132b; color: white; text-align: center; font-family: 'Arial', sans-serif; margin: 0; padding: 20px; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; color: #ff4d4d; margin-top: 20px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 900px; margin: 30px auto; }
+        .photo-card { background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s; }
+        .photo-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; }
+        .caption { margin-top: 12px; font-size: 0.9rem; color: #00ffcc; letter-spacing: 1px; font-weight: bold; }
+        .back-btn { display: inline-block; margin-top: 30px; color: white; text-decoration: none; border: 1px solid #ff4d4d; padding: 10px 25px; border-radius: 25px; background: #ff4d4d; font-weight: bold; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Christmas Gallery 🎄</h1>
-<p style="text-align: center; color: white; padding: 10px; font-family: sans-serif;">
-  Wishing you a season filled with light and laughter. May this Christmas bring joy to your heart and peace to your home. Thank you for being a part of my life! 
-</p>
-    
-    <div class="gallery">
-      <img src="https://images.unsplash.com/photo-1543589077-47d81606c1bf" />
-      <img src="https://images.unsplash.com/photo-1512389098783-66b81f86e199" />
-      <img src="https://images.unsplash.com/photo-1608889175112-b33f9f3c1c4a" />
-      <img src="https://images.unsplash.com/photo-1545580492-8859ba8323cb" />
+
+    <h1>Holiday Moments</h1>
+
+    <div class="gallery-grid">
+        <div class="photo-card">
+            <img src="vibe1.jpg" alt="Christmas vibe">
+            <div class="caption">WISHING YOU WARMTH ☕</div>
+        </div>
+
+        <div class="photo-card">
+            <img src="vibe2.jpg" alt="Christmas vibe">
+            <div class="caption">WISHING YOU JOY ✨</div>
+        </div>
+
+        <div class="photo-card">
+            <img src="vibe3.jpg" alt="Christmas vibe">
+            <div class="caption">WISHING YOU PEACE ❄️</div>
+        </div>
     </div>
 
-    <br /><br />
-    <a href="index.html" class="button">Back to Message 🎄</a>
-  </div>
+    <a href="index.html" class="back-btn">← Back to Snowfall</a>
 
-  <script src="script.js"></script>
 </body>
 </html>
+
