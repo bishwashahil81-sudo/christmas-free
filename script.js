@@ -1,75 +1,44 @@
-const statusText = document.querySelector("#statusText");
-const cells = document.querySelectorAll(".cell");
-const restartBtn = document.querySelector("#restartBtn");
-const winConditions = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-
-let options = ["", "", "", "", "", "", "", "", ""];
-let currentPlayer = "X";
-let running = true;
-
-// 1. GAME LOGIC
-cells.forEach(cell => cell.addEventListener("click", cellClicked));
-restartBtn.addEventListener("click", restartGame);
-
-function cellClicked() {
-    const cellIndex = this.getAttribute("data-index");
-    if (options[cellIndex] != "" || !running) return;
-    updateCell(this, cellIndex);
-    checkWinner();
+body, html {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    overflow: hidden; background-color: #050a18; font-family: 'Arial', sans-serif;
 }
 
-function updateCell(cell, index) {
-    options[index] = currentPlayer;
-    cell.textContent = currentPlayer;
+.background-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+    filter: blur(6px) brightness(45%); /* Perfect Santa visibility */
+    transform: scale(1.1); z-index: -2;
 }
 
-function changePlayer() {
-    currentPlayer = (currentPlayer == "X") ? "O" : "X";
-    statusText.textContent = `Player ${currentPlayer}'s Turn`;
+#snowCanvas { position: fixed; top: 0; left: 0; z-index: -1; }
+
+.controls {
+    position: absolute; top: 15px; width: 100%;
+    display: flex; justify-content: center; gap: 8px; z-index: 10;
 }
 
-function checkWinner() {
-    let roundWon = false;
-    for (let i = 0; i < winConditions.length; i++) {
-        const condition = winConditions[i];
-        if (options[condition[0]] == "" || options[condition[1]] == "" || options[condition[2]] == "") continue;
-        if (options[condition[0]] == options[condition[1]] && options[condition[1]] == options[condition[2]]) {
-            roundWon = true; break;
-        }
-    }
-    if (roundWon) { statusText.textContent = `${currentPlayer} Wins! 🎉`; running = false; }
-    else if (!options.includes("")) { statusText.textContent = `Draw! 🤝`; running = false; }
-    else { changePlayer(); }
+button, .nav-btn {
+    background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 12px; border-radius: 12px; font-weight: bold; cursor: pointer;
+    backdrop-filter: blur(5px); font-size: 12px;
 }
 
-function restartGame() {
-    currentPlayer = "X";
-    options = ["", "", "", "", "", "", "", "", ""];
-    statusText.textContent = `Player X's Turn`;
-    cells.forEach(cell => cell.textContent = "");
-    running = true;
+.content-section {
+    position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
+    text-align: center; width: 95%;
 }
 
-// 2. SNOW & MUSIC (Same as before)
-const canvas = document.getElementById('snowCanvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-window.addEventListener('resize', resize); resize();
-class Snowflake {
-    constructor() { this.reset(); }
-    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.s = Math.random()*3+1; this.v = Math.random()*1+0.5; }
-    update() { this.y += this.v; if (this.y > canvas.height) this.y = -10; }
-    draw() { ctx.fillStyle='white'; ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,Math.PI*2); ctx.fill(); }
-}
-for(let i=0; i<70; i++) particles.push(new Snowflake());
-function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate); }
-animate();
+h1 { color: white; text-shadow: 0 0 10px rgba(255,255,255,0.3); margin-bottom: 10px; }
 
-const audio = new Audio('./bgm.mp3');
-audio.loop = true;
-document.getElementById('musicToggle').addEventListener('click', function() {
-    if (audio.paused) { audio.play(); this.innerText = "Music ON 🔊"; }
-    else { audio.pause(); this.innerText = "Music OFF 🔇"; }
-});
+/* Game UI */
+.game-container, .glass-card { background: rgba(0, 0, 0, 0.5); padding: 15px; border-radius: 20px; display: inline-block; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+.board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 210px; margin: 0 auto 15px; }
+.cell { width: 65px; height: 65px; background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; cursor: pointer; }
+
+/* Gallery UI */
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 500px; margin: 0 auto; }
+.photo-card img { width: 100%; height: 100px; object-fit: cover; border-radius: 10px; }
+.caption { font-size: 10px; margin-top: 5px; color: #00ffcc; }
+
+
 
