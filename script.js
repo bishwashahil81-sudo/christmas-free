@@ -1,54 +1,56 @@
-// 1. Music (bgm.mp3)
-const audio = new Audio('./bgm.mp3');
-audio.loop = true;
-const musicBtn = document.getElementById('musicToggle');
-musicBtn.addEventListener('click', () => {
-    if (audio.paused) {
-        audio.play().then(() => { musicBtn.innerText = "Music ON 🔊"; musicBtn.style.background = "#28a745"; });
-    } else {
-        audio.pause(); musicBtn.innerText = "Music OFF 🔇"; musicBtn.style.background = "#ff4d4d";
-    }
-});
+const statusText = document.querySelector("#statusText");
+const cells = document.querySelectorAll(".cell");
+const restartBtn = document.querySelector("#restartBtn");
+const winConditions = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
-// 2. Two-Player Tic Tac Toe (Human vs Human)
-const boardElement = document.getElementById('board');
-const statusText = document.getElementById('status');
-const resetBtn = document.getElementById('resetBtn');
-let board = ["", "", "", "", "", "", "", "", ""];
-let currentPlayer = "X"; 
+let options = ["", "", "", "", "", "", "", "", ""];
+let currentPlayer = "X";
+let running = true;
 
-function checkWinner() {
-    const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-    for (let p of wins) {
-        if (board[p[0]] && board[p[0]] === board[p[1]] && board[p[0]] === board[p[2]]) return board[p[0]];
-    }
-    return board.includes("") ? null : "Draw";
+// 1. GAME LOGIC
+cells.forEach(cell => cell.addEventListener("click", cellClicked));
+restartBtn.addEventListener("click", restartGame);
+
+function cellClicked() {
+    const cellIndex = this.getAttribute("data-index");
+    if (options[cellIndex] != "" || !running) return;
+    updateCell(this, cellIndex);
+    checkWinner();
 }
 
-boardElement.addEventListener('click', (e) => {
-    const index = e.target.dataset.index;
-    if (index === undefined || board[index] !== "" || statusText.innerText.includes("Wins")) return;
-    
-    board[index] = currentPlayer;
-    e.target.innerText = currentPlayer;
-    
-    let result = checkWinner();
-    if (result) {
-        statusText.innerText = result === "Draw" ? "Draw! 🤝" : `${result} Wins! 🎉`;
-    } else {
-        currentPlayer = currentPlayer === "X" ? "O" : "X";
-        statusText.innerText = `Player ${currentPlayer}'s Turn`;
+function updateCell(cell, index) {
+    options[index] = currentPlayer;
+    cell.textContent = currentPlayer;
+}
+
+function changePlayer() {
+    currentPlayer = (currentPlayer == "X") ? "O" : "X";
+    statusText.textContent = `Player ${currentPlayer}'s Turn`;
+}
+
+function checkWinner() {
+    let roundWon = false;
+    for (let i = 0; i < winConditions.length; i++) {
+        const condition = winConditions[i];
+        if (options[condition[0]] == "" || options[condition[1]] == "" || options[condition[2]] == "") continue;
+        if (options[condition[0]] == options[condition[1]] && options[condition[1]] == options[condition[2]]) {
+            roundWon = true; break;
+        }
     }
-});
+    if (roundWon) { statusText.textContent = `${currentPlayer} Wins! 🎉`; running = false; }
+    else if (!options.includes("")) { statusText.textContent = `Draw! 🤝`; running = false; }
+    else { changePlayer(); }
+}
 
-resetBtn.addEventListener('click', () => {
-    board = ["", "", "", "", "", "", "", "", ""];
+function restartGame() {
     currentPlayer = "X";
-    statusText.innerText = "Player X's Turn";
-    document.querySelectorAll('.cell').forEach(c => c.innerText = "");
-});
+    options = ["", "", "", "", "", "", "", "", ""];
+    statusText.textContent = `Player X's Turn`;
+    cells.forEach(cell => cell.textContent = "");
+    running = true;
+}
 
-// 3. Snow Animation
+// 2. SNOW & MUSIC (Same as before)
 const canvas = document.getElementById('snowCanvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
@@ -60,7 +62,14 @@ class Snowflake {
     update() { this.y += this.v; if (this.y > canvas.height) this.y = -10; }
     draw() { ctx.fillStyle='white'; ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,Math.PI*2); ctx.fill(); }
 }
-for(let i=0; i<80; i++) particles.push(new Snowflake());
+for(let i=0; i<70; i++) particles.push(new Snowflake());
 function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate); }
 animate();
+
+const audio = new Audio('./bgm.mp3');
+audio.loop = true;
+document.getElementById('musicToggle').addEventListener('click', function() {
+    if (audio.paused) { audio.play(); this.innerText = "Music ON 🔊"; }
+    else { audio.pause(); this.innerText = "Music OFF 🔇"; }
+});
 
