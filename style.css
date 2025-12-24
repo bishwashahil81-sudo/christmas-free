@@ -1,9 +1,6 @@
-/* =====================
-   GLOBAL
-===================== */
 * {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  font-family: system-ui, sans-serif;
 }
 
 body {
@@ -12,9 +9,7 @@ body {
   overflow: hidden;
 }
 
-/* =====================
-   BACKGROUND + AURORA
-===================== */
+/* BACKGROUND */
 .background-container {
   position: fixed;
   inset: 0;
@@ -24,48 +19,22 @@ body {
   z-index: -3;
 }
 
-.background-container::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 255, 200, 0.28),
-    rgba(120, 0, 255, 0.22),
-    transparent 60%
-  );
-  mix-blend-mode: screen;
-  animation: aurora 8s ease-in-out infinite alternate;
-}
-
-@keyframes aurora {
-  from { opacity: 0.6; }
-  to   { opacity: 1; }
-}
-
-/* =====================
-   SNOW CANVAS
-===================== */
+/* SNOW CANVAS */
 canvas {
   position: fixed;
   inset: 0;
   z-index: -2;
-  filter: drop-shadow(0 0 6px white);
 }
 
-/* =====================
-   GLASS UI
-===================== */
+/* GLASS UI */
 .glass {
   backdrop-filter: blur(14px);
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255,255,255,0.15);
   border-radius: 16px;
   padding: 15px;
 }
 
-/* =====================
-   TOP CONTROLS
-===================== */
+/* CONTROLS */
 .top-controls {
   position: fixed;
   top: 10px;
@@ -73,50 +42,126 @@ canvas {
   transform: translateX(-50%);
   display: flex;
   gap: 6px;
-  z-index: 10;
+  z-index: 5;
 }
 
 button {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255,255,255,0.25);
   border: none;
   color: #fff;
   padding: 8px 12px;
   border-radius: 12px;
-  cursor: pointer;
 }
 
-/* =====================
-   SECTIONS
-===================== */
+/* SECTIONS */
 .section {
   display: none;
-  margin: 80px auto;
+  margin: 90px auto;
   max-width: 380px;
 }
-
 .section.active {
   display: block;
 }
 
-/* =====================
-   TIC TAC TOE
-===================== */
+/* GAME */
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,1fr);
   gap: 6px;
 }
-
 .cell {
   height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 40px;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+}
+.cell.X { color: red; text-shadow: 0 0 12px red; }
+.cell.O { color: cyan; text-shadow: 0 0 12px cyan; }
+
+/* WIN OVERLAY */
+#winOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10;
+}
+
+/* GALLERY */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 8px;
+}
+.grid img {
+  width: 100%;
   border-radius: 12px;
 }
 
-.cell.X {
-  color: red;
-  text-shadow: 0 0
+/* LOADER */
+#loader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #000;
+  z-index: 20;
+}
+.snow-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 🎅 SANTA (LOCAL IMAGE) */
+#santa {
+  position: fixed;
+  top: 20%;
+  left: -300px;
+  width: 260px;
+  height: 140px;
+  background: url("Santa.png") center / contain no-repeat;
+  pointer-events: none;
+  z-index: 4;
+  filter: drop-shadow(0 0 14px white);
+  animation: santaFly 18s linear infinite;
+}
+
+/* SANTA HAND WAVE */
+#santa .hand {
+  position: absolute;
+  right: 45px;
+  top: 55px;
+  width: 28px;
+  height: 28px;
+  background: white;
+  border-radius: 50%;
+  animation: wave 1s ease-in-out infinite;
+}
+
+@keyframes wave {
+  from { transform: rotate(15deg); }
+  to { transform: rotate(-25deg); }
+}
+
+@keyframes santaFly {
+  from {
+    transform: translateX(-300px) translateY(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(calc(100vw + 300px)) translateY(-120px);
+    opacity: 1;
+  }
+}
