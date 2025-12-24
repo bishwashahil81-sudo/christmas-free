@@ -1,65 +1,75 @@
+// --- SNOW EFFECT ---
 const canvas = document.createElement("canvas");
-canvasaclassNamecum"snow"eadocumenttbodynappendChild(canvas)Namconstsctx";
-canvasngetContext("2d")l=letnwashgeletnflakes2d"[]
-lefunctionlresize()s{= [w;
+canvas.className = "snow";
+document.body.appendChild(canvas);
+const ctx = canvas.getContext("2d");
+let w, h;
+let flakes = [];
 
-canvasowidthizewindow innerWidth.widhh =canvaswheightWidwindowhinnerHeightei}hwindownaddEventListener("resize".aresize)Liresize()resfunctionscreateFlakes();{
-fuflakes crArraylfrom({ lengthak120=}Ar()y.fr({({ lexgtMath2random()=> w{
-    y: Math.random() * h,
-    r: Math.random() * 3,
- 1  r: MspeedanMath)random(),
- 1  s0.5d: }))h.}acreateFlakes().5
-function
-draw()F{akectx;clearRect(0dr0w(w {h) ctxctxefillStyle 0,"rgba(255,255,255,0.85)"= "rflakes5forEach(f0.85{";
-  ctxkbeginPath()f => {ctx arc(fbxgifPythf)r
- 0  MathaPI(f.2) f.y, ctx,fill()th.PI f y);
- f speedfill()f
-x   fMath=sin(feyd;
-0.01).x += ift(fsyn(fh) { 0.01);f y  if5(f.y > hf x
-  Mathfrandom()
-  w   f.x}= M})h.rarequestAnimationFrame(draw)eq}edraw()ati// Background music controls constrbgmd mnewcAudio()lsbgmnsrcbgm'assets/bgm.mp3'bgbgmrloop'astrue/bbgmmvolumegm.0.28 =bgmupreloadvol'auto'0.let
-musicPlaying= 'false;
-lfunctionPupdateMusicButton()n{tioconstabtnusidocument)getElementById('music-toggle')lemeifB(Ibtn)ureturngglebtn
-textContent remusicPlayingtex'🔊 Music ON'sic'🔈 Music OFF'MusibtnNsetAttribute('aria-pressed'etmusicPlayingria'true'ed''false')la}infunctioneplayMusic()){
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
 }
-bgmnplay()pthen(()c() {
-  bgmusicPlayingn((true {
-   updateMusicButton()e;
-   localStorageBsetItem('bgmPlaying'or'1')setI})mcatch(()ying{, '1'// Autoplay blocked; wait for user interaction waitmusicPlayingterfalsen
-    updateMusicButton()e;
- }) u}dafunctionupauseMusic();{}
+window.addEventListener("resize", resize);
+resize();
 
-bgmcpause()useMmusicPlayinggm.false();
-updateMusicButton()lse;localStorageisetItem('bgmPlaying'or'0')s
+function createFlakes() {
+  flakes = Array.from({ length: 120 }, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: Math.random() * 3 + 1,
+    speed: Math.random() * 1 + 0.5
+  }));
+}
+createFlakes();
+
+function draw() {
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = "rgba(255,255,255,0.85)";
+  flakes.forEach(f => {
+    ctx.beginPath();
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+    ctx.fill();
+    f.y += f.speed;
+    f.x += Math.sin(f.y * 0.01);
+    if (f.y > h) {
+      f.y = -5;
+      f.x = Math.random() * w;
+    }
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+
+// --- MUSIC CONTROLS ---
+const bgm = new Audio('assets/bgm.mp3');
+bgm.loop = true;
+bgm.volume = 0.28;
+let musicPlaying = false;
+
+function updateMusicButton() {
+  const btn = document.getElementById('music-toggle');
+  if (!btn) return;
+  btn.textContent = musicPlaying ? '🔊 Music ON' : '🔈 Music OFF';
 }
 
 function toggleMusic() {
-  if (musicPlaying) pauseMusic(); else playMusic();
+  if (musicPlaying) {
+    bgm.pause();
+    musicPlaying = false;
+  } else {
+    bgm.play().catch(() => console.log("User interaction needed"));
+    musicPlaying = true;
+  }
+  updateMusicButton();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('music-toggle');
-  if (!btn) return;
-  btn.addEventListener('click', () => {
-    toggleMusic();
-  });
-
-  // Restore preference if user previously enabled music
-  const saved = localStorage.getItem('bgmPlaying');
-  if (saved === '1') {
-
-  // Many browsers block autoplay; try to play on first user gesture
-    const tryPlay = () => {
-playMusic();
-      window.removeEventListener('click', tryPlay);
-      } 
-
-   window.addEventListener('click', tryPlay);
-  } else {
-    updateMusicButton();
-  }
+  if (btn) btn.addEventListener('click', toggleMusic);
 });
-// --- GAME LOGIC START ---
+
+// --- TIC-TAC-TOE GAME LOGIC ---
 let board = ["", "", "", "", "", "", "", "", ""];
 let gameActive = true;
 
@@ -72,7 +82,6 @@ function play(index) {
     
     if (checkWin()) return;
 
-    // Snowman's Turn
     setTimeout(() => {
       let empty = board.map((v, i) => v === "" ? i : null).filter(v => v !== null);
       if (empty.length > 0) {
@@ -92,7 +101,6 @@ function checkWin() {
   ];
   let won = winConditions.some(c => c.every(i => board[i] === "X"));
 
-  // This unlocks your gift!
   if (won || board.filter(x => x !== "").length >= 5) {
     const reward = document.getElementById('reward');
     if(reward) reward.style.display = 'block';
@@ -100,4 +108,5 @@ function checkWin() {
     return true;
   }
   return false;
-    }
+}
+
