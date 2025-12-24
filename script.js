@@ -1,136 +1,69 @@
-// --- SNOW EFFECT ---
-const canvas = document.createElement("canvas");
-canvas.className = "snow";
-document.body.appendChild(canvas);
-const ctx = canvas.getContext("2d");
-let w, h;
-let flakes = [];
+const canvas = document.getElementById('snowCanvas');
+const ctx = canvas.getContext('2d');
+const musicBtn = document.getElementById('musicToggle');
 
-function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resize);
-resize();
+// 1. Setup Audio
+const audio = new Audio('bgm.mp3');
+audio.loop = true;
 
-function createFlakes() {
-  flakes = Array.from({ length: 120 }, () => ({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    r: Math.random() * 3 + 1,
-    speed: Math.random() * 1 + 0.5
-  }));
-}
-createFlakes();
-
-function draw() {
-  ctx.clearRect(0, 0, w, h);
-  ctx.fillStyle = "rgba(255,255,255,0.85)";
-  flakes.forEach(f => {
-    ctx.beginPath();
-    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-    ctx.fill();
-    f.y += f.speed;
-    f.x += Math.sin(f.y * 0.01);
-    if (f.y > h) {
-      f.y = -5;
-      f.x = Math.random() * w;
+// 2. Music Toggle Logic
+musicBtn.addEventListener('click', () => {
+    if (audio.paused) {
+        audio.play().then(() => {
+            musicBtn.innerText = "Music ON 🔊";
+            musicBtn.style.background = "#28a745"; // Changes to Green
+        }).catch(err => {
+            console.log("Audio play blocked by browser. Try clicking again.");
+        });
+    } else {
+        audio.pause();
+        musicBtn.innerText = "Music OFF 🔇";
+        musicBtn.style.background = "#ff4d4d"; // Changes back to Red
     }
-  });
-  requestAnimationFrame(draw);
-}
-draw();
-
-// --- MUSIC CONTROLS ---
-const bgm = new Audio('bgm.mp3');
-
-bgm.loop = true;
-bgm.volume = 0.28;
-let musicPlaying = false;
-
-function updateMusicButton() {
-  const btn = document.getElementById('music-toggle');
-  if (!btn) return;
-  btn.textContent = musicPlaying ? '🔊 Music ON' : '🔈 Music OFF';
-}
-
-function toggleMusic() {
-  if (musicPlaying) {
-    bgm.pause();
-    musicPlaying = false;
-  } else {
-    bgm.play().catch(() => console.log("User interaction needed"));
-    musicPlaying = true;
-  }
-  updateMusicButton();
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('music-toggle');
-  if (btn) btn.addEventListener('click', toggleMusic);
 });
 
-// --- TIC-TAC-TOE GAME LOGIC ---
-let board = ["", "", "", "", "", "", "", "", ""];
-let gameActive = true;
+// 3. Snowfall Animation (The Game)
+let particles = [];
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
 
-function play(index) {
-  const cells = document.querySelectorAll('.cell');
-  if (board[index] === "" && gameActive) {
-    board[index] = "X";
-    cells[index].innerText = "X";
-    cells[index].style.color = "#ff4d4d"; // Red for X
-    
-    if (checkWin()) return;
-
-    setTimeout(() => {
-      let empty = board.map((v, i) => v === "" ? i : null).filter(v => v !== null);
-      if (empty.length > 0) {
-        let move = empty[0]; 
-        board[move] = "O";
-        cells[move].innerText = "O";
-        cells[move].style.color = "#28a745"; // Green for O
-        checkWin();
-      }
-    }, 400);
-  }
+class Snowflake {
+    constructor() {
+        this.reset();
+    }
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height - canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.speed = Math.random() * 1 + 0.5;
+        this.velX = Math.random() * 0.5 - 0.25;
+    }
+    update() {
+        this.y += this.speed;
+        this.x += this.velX;
+        if (this.y > canvas.height) this.reset();
+    }
+    draw() {
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
 }
 
-function checkWin() {
-  const winConditions = [
-    [0,1,2], [3,4,5], [6,7,8], // Rows
-    [0,3,6], [1,4,7], [2,5,8], // Columns
-    [0,4,8], [2,4,6]           // Diagonals
-  ];
+for (let i = 0; i < 100; i++) particles.push(new Snowflake());
 
-  // Only trigger the win if 'X' (the player) connects three
-  let playerWon = winConditions.some(condition => {
-    return condition.every(index => board[index] === "X");
-  });
-
-  if (playerWon) {
-    const reward = document.getElementById('reward');
-    if(reward) reward.style.display = 'block';
-    gameActive = false;
-    return true;
-  }
-
-  // If the board is full and no one won, let them retry
-  if (!board.includes("") && !playerWon) {
-    alert("It's a draw! Try one more time to unlock your gift! 🎄");
-    resetGame();
-    return false;
-  }
-
-  return false;
-}
-
-// This clears the board so they can play again if they draw
-function resetGame() {
-    board = ["", "", "", "", "", "", "", "", ""];
-    gameActive = true;
-    document.querySelectorAll('.cell').forEach(cell => {
-        cell.innerText = "";
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+        p.update();
+        p.draw();
     });
+    requestAnimationFrame(animate);
 }
+animate();
 
