@@ -42,7 +42,8 @@ function draw() {
 draw();
 
 // --- MUSIC CONTROLS ---
-const bgm = new Audio('assets/bgm.mp3');
+const bgm = new Audio('bgm.mp3');
+
 bgm.loop = true;
 bgm.volume = 0.28;
 let musicPlaying = false;
