@@ -1,44 +1,80 @@
-body, html {
-    margin: 0; padding: 0; width: 100%; height: 100%;
-    overflow: hidden; background-color: #050a18; font-family: 'Arial', sans-serif;
+// PERSISTENT MUSIC
+const audio = new Audio('./bgm.mp3'); audio.loop = true;
+document.getElementById('musicToggle').addEventListener('click', function() {
+    if (audio.paused) { audio.play(); this.innerText = "Music ON 🔊"; this.style.background = "#28a745"; }
+    else { audio.pause(); this.innerText = "Music OFF 🔇"; this.style.background = "rgba(255,255,255,0.1)"; }
+});
+
+// SECTION NAVIGATION (No Refresh = Music stays on)
+function showSection(id) {
+    document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
 }
 
-.background-container {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
-    filter: blur(6px) brightness(45%); /* Perfect Santa visibility */
-    transform: scale(1.1); z-index: -2;
+// TIC-TAC-TOE ROBOT AI
+const cells = document.querySelectorAll(".cell");
+const statusText = document.querySelector("#statusText");
+const winConditions = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+let options = ["", "", "", "", "", "", "", "", ""];
+let running = true;
+
+cells.forEach(cell => cell.addEventListener("click", function() {
+    const index = this.getAttribute("data-index");
+    if (options[index] !== "" || !running) return;
+
+    options[index] = "X";
+    this.textContent = "X";
+    if (checkWinner("X")) return;
+
+    if (options.includes("")) {
+        statusText.textContent = "Robot thinking...";
+        setTimeout(robotPlay, 600);
+    }
+}));
+
+function robotPlay() {
+    let available = options.map((v, i) => v === "" ? i : null).filter(v => v !== null);
+    if (available.length > 0 && running) {
+        let move = available[Math.floor(Math.random() * available.length)];
+        options[move] = "O";
+        document.querySelector(`[data-index="${move}"]`).textContent = "O";
+        checkWinner("O");
+    }
 }
 
-#snowCanvas { position: fixed; top: 0; left: 0; z-index: -1; }
-
-.controls {
-    position: absolute; top: 15px; width: 100%;
-    display: flex; justify-content: center; gap: 8px; z-index: 10;
+function checkWinner(player) {
+    let won = winConditions.some(c => options[c[0]] === player && options[c[1]] === player && options[c[2]] === player);
+    if (won) {
+        statusText.textContent = player === "X" ? "You Won! 🎉" : "Robot Won! 🤖";
+        running = false; return true;
+    } else if (!options.includes("")) {
+        statusText.textContent = "Draw! 🤝"; running = false; return true;
+    }
+    statusText.textContent = player === "X" ? "Robot's Turn" : "Your Turn (X)";
+    return false;
 }
 
-button, .nav-btn {
-    background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255,255,255,0.3);
-    padding: 8px 12px; border-radius: 12px; font-weight: bold; cursor: pointer;
-    backdrop-filter: blur(5px); font-size: 12px;
+document.getElementById("restartBtn").addEventListener("click", () => {
+    options.fill(""); cells.forEach(c => c.textContent = "");
+    running = true; statusText.textContent = "Your Turn (X)";
+});
+
+// SNOW ANIMATION
+const canvas = document.getElementById('snowCanvas'); const ctx = canvas.getContext('2d');
+let particles = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resize); resize();
+class Snowflake {
+    constructor() { this.reset(); }
+    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.s = Math.random()*2+1; this.v = Math.random()*1+0.5; }
+    update() { this.y += this.v; if (this.y > canvas.height) this.y = -10; }
+    draw() { ctx.fillStyle='white'; ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,Math.PI*2); ctx.fill(); }
 }
+for(let i=0; i<60; i++) particles.push(new Snowflake());
+function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate); }
+animate();
 
-.content-section {
-    position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
-    text-align: center; width: 95%;
-}
-
-h1 { color: white; text-shadow: 0 0 10px rgba(255,255,255,0.3); margin-bottom: 10px; }
-
-/* Game UI */
-.game-container, .glass-card { background: rgba(0, 0, 0, 0.5); padding: 15px; border-radius: 20px; display: inline-block; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-.board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 210px; margin: 0 auto 15px; }
-.cell { width: 65px; height: 65px; background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; cursor: pointer; }
-
-/* Gallery UI */
-.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 500px; margin: 0 auto; }
-.photo-card img { width: 100%; height: 100px; object-fit: cover; border-radius: 10px; }
-.caption { font-size: 10px; margin-top: 5px; color: #00ffcc; }
-
-
+// NOTES LOGIC
+const notes = ["WISHING YOU JOY! ✨", "MERRY CHRISTMAS! ❄️", "HAVE A GREAT YEAR! 🥂"];
+function getNewNote() { document.getElementById('noteContent').innerText = notes[Math.floor(Math.random() * notes.length)]; }
 
