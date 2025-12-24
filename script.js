@@ -78,3 +78,29 @@ animate();
 const notes = ["WISHING YOU JOY! ✨", "MERRY CHRISTMAS! ❄️", "HAVE A GREAT YEAR! 🥂"];
 function getNewNote() { document.getElementById('noteContent').innerText = notes[Math.floor(Math.random() * notes.length)]; }
 
+// Locate your makeMove function and update it to this:
+function makeMove(cell, index, player) {
+    options[index] = player;
+    cell.textContent = player;
+    
+    // This part adds the glow class based on who played
+    if (player === "X") {
+        cell.classList.add("x-player");
+    } else {
+        cell.classList.add("o-player");
+    }
+    
+    checkWinner();
+}
+
+// Locate your restartBtn event listener or restart function and update it:
+document.getElementById("restartBtn").addEventListener("click", () => {
+    options.fill("");
+    cells.forEach(cell => {
+        cell.textContent = "";
+        // This removes the glow so the board is fresh for the next game
+        cell.classList.remove("x-player", "o-player");
+    });
+    running = true;
+    statusText.textContent = "Your Turn (X)";
+});
