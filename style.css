@@ -118,3 +118,33 @@ button {
   width: 250px;
   pointer-events: none;
 }
+.tic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 90px);
+  gap: 12px;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.cell {
+  width: 90px;
+  height: 90px;
+  font-size: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.2);
+  border-radius: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.reset-btn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 15px;
+}
