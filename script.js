@@ -1,144 +1,76 @@
-// Loading screen
-function hideLoading() {
-    document.getElementById('loading-screen').style.display = 'none';
+// 1. LOADER & MUSIC
+window.onload = () => { setTimeout(() => document.getElementById('loader').style.display = 'none', 1000); };
+const audio = new Audio('music.mp3'); audio.loop = true;
+document.getElementById('musicToggle').onclick = function() {
+    audio.paused ? (audio.play(), this.innerText = "Music ON 🔊") : (audio.pause(), this.innerText = "Music OFF 🔇");
+};
+
+function showSection(id) {
+    document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
 }
 
-// Snow animation
-const canvas = document.getElementById('snow-canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+// 2. ROBOT TIC-TAC-TOE
+const boardElement = document.getElementById("board");
+let cells = Array(9).fill("");
+let running = true;
 
-let snowflakes = [];
-for (let i = 0; i < 100; i++) {
-    snowflakes.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 3 + 1,
-        speed: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.5 + 0.5
+function createBoard() {
+    boardElement.innerHTML = "";
+    cells.forEach((val, i) => {
+        const div = document.createElement("div");
+        div.className = `cell ${val === "X" ? "x-player" : val === "O" ? "o-player" : ""}`;
+        div.textContent = val;
+        div.onclick = () => playerMove(i);
+        boardElement.appendChild(div);
     });
 }
 
-function drawSnow() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    snowflakes.forEach(flake => {
-        ctx.beginPath();
-        ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${flake.opacity})`;
-        ctx.fill();
-        flake.y += flake.speed;
-        if (flake.y > canvas.height) {
-            flake.y = 0;
-            flake.x = Math.random() * canvas.width;
-        }
-    });
-    requestAnimationFrame(drawSnow);
-}
-drawSnow();
-
-// Music toggle
-const music = document.getElementById('bg-music');
-const musicToggle = document.getElementById('music-toggle');
-let musicPlaying = false;
-
-function toggleMusic() {
-    if (musicPlaying) {
-        music.pause();
-        musicToggle.textContent = '🎵 Music Off';
-    } else {
-        music.play();
-        musicToggle.textContent = '🎵 Music On';
-    }
-    musicPlaying = !musicPlaying;
-}
-
-// Section switching
-function showSection(sectionId) {
-    document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-    document.getElementById(sectionId).classList.add('active');
-}
-
-// Tic-Tac-Toe
-let board = ['', '', '', '', '', '', '', '', ''];
-let currentPlayer = 'X';
-let gameActive = true;
-
-const cells = document.querySelectorAll('.cell');
-cells.forEach(cell => cell.addEventListener('click', handleCellClick));
-
-function handleCellClick(e) {
-    const index = e.target.dataset.index;
-    if (board[index] !== '' || !gameActive || currentPlayer === 'O') return;
-    board[index] = 'X';
-    e.target.textContent = 'X';
-    e.target.classList.add('x');
-    checkWinner();
-    if (gameActive) {
-        currentPlayer = 'O';
-        setTimeout(robotMove, 600);
-    }
+function playerMove(i) {
+    if (cells[i] || !running) return;
+    cells[i] = "X"; createBoard();
+    if (!checkWinner("X") && cells.includes("")) setTimeout(robotMove, 600);
 }
 
 function robotMove() {
-    // Simple AI: Choose random empty cell
-    let available = board.map((val, idx) => val === '' ? idx : null).filter(val => val !== null);
-    if (available.length > 0) {
-        let move = available[Math.floor(Math.random() * available.length)];
-        board[move] = 'O';
-        cells[move].textContent = 'O';
-        cells[move].classList.add('o');
-        checkWinner();
-        currentPlayer = 'X';
+    const empty = cells.map((v, i) => v === "" ? i : null).filter(v => v !== null);
+    if (empty.length && running) {
+        cells[empty[Math.floor(Math.random() * empty.length)]] = "O";
+        createBoard(); checkWinner("O");
     }
 }
 
-function checkWinner() {
-    const winPatterns = [
-        [0,1,2], [3,4,5], [6,7,8],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]
-    ];
-    for (let pattern of winPatterns) {
-        if (board[pattern[0]] && board[pattern[0]] === board[pattern[1]] && board[pattern[1]] === board[pattern[2]]) {
-            if (board[pattern[0]] === 'X') {
-                document.getElementById('win-popup').style.display = 'flex';
-            }
-            gameActive = false;
-            return;
-        }
+function checkWinner(p) {
+    const win = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+    if (win.some(a => a.every(i => cells[i] === p))) {
+        document.getElementById("winTitle").innerText = p === "X" ? "You Won! 🎉" : "Robot Won! 🤖";
+        document.getElementById("winOverlay").style.display = "flex";
+        running = false; return true;
     }
-    if (!board.includes('')) {
-        gameActive = false; // Tie, but no popup for tie
-    }
+    return false;
 }
 
-function resetGame() {
-    board = ['', '', '', '', '', '', '', '', ''];
-    cells.forEach(cell => {
-        cell.textContent = '';
-        cell.classList.remove('x', 'o');
-    });
-    currentPlayer = 'X';
-    gameActive = true;
-    document.getElementById('win-popup').style.display = 'none';
+document.getElementById("restartBtn").onclick = resetGame;
+function resetGame() { cells.fill(""); running = true; createBoard(); document.getElementById("winOverlay").style.display = "none"; }
+createBoard();
+
+// 3. SNOWFALL
+const canvas = document.getElementById('snowCanvas'); const ctx = canvas.getContext('2d');
+let flakes = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.onresize = resize; resize();
+class Flake {
+    constructor() { this.reset(); }
+    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*-canvas.height; this.s = Math.random()*2+1; this.v = Math.random()*1+0.5; }
+    update() { this.y += this.v; if (this.y > canvas.height) this.reset(); }
+    draw() { ctx.fillStyle='white'; ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,Math.PI*2); ctx.fill(); }
 }
+for(let i=0; i<70; i++) flakes.push(new Flake());
+function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); flakes.forEach(f=>{f.update();f.draw();}); requestAnimationFrame(anim); }
+anim();
 
-function closePopup() {
-    document.getElementById('win-popup').style.display = 'none';
-    resetGame();
-}
-
-// Notes
-const wishes = [
-    "May your holidays be filled with joy and laughter!",
-    "Wishing you a season of peace and goodwill.",
-    "Here's to new beginnings and happy memories!",
-    "May the magic of Christmas fill your heart!",
-    "Sending warm wishes for a festive season!"
-];
-
-function generateWish() {
-    const randomWish = wishes[Math.floor(Math.random() * wishes.length)];
-    document.getElementById('wish-text').textContent = randomWish;
+// 4. NOTES
+function getNewNote() {
+    const notes = ["JOY TO THE WORLD! ✨", "MERRY CHRISTMAS! ❄️", "A BLESSED NEW YEAR! 🥂"];
+    document.getElementById('noteContent').innerText = notes[Math.floor(Math.random() * notes.length)];
 }
