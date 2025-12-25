@@ -78,16 +78,20 @@ function sendWish() {
 
   if (input.value.trim() === "") {
     reply.textContent = "🎅 Santa says: Don’t forget to write your wish!";
+    reply.classList.add("show");
     return;
   }
 
   const responses = [
-    "🎅 Ho ho ho! Your wish is noted. On my way!",
-    "🎅 That’s a lovely wish! Keep believing ✨",
-    "🎅 Santa is preparing something special for you 🎁",
-    "🎅 Magic takes time… but miracles are coming ❤️"
+    "🎅 Ho ho ho! Your wish is noted ✨",
+    "🎅 Such a beautiful wish! Keep believing ❤️",
+    "🎅 Santa is preparing something special 🎁",
+    "🎅 Magic is on the way for you ✨ Ho ho ho!"
   ];
 
   reply.textContent = responses[Math.floor(Math.random() * responses.length)];
+  reply.classList.add("show");
+
+  // ✅ CLEAR TEXTAREA AFTER SENDING
   input.value = "";
 }
