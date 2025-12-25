@@ -1,3 +1,8 @@
+/* START MUSIC */
+function startMusic() {
+  document.getElementById("bgm").play();
+}
+
 /* BACKGROUND ROTATION */
 const backgrounds = ["vibe1.jpg", "vibe2.jpg", "vibe3.jpg", "vibe4.jpg"];
 let bgIndex = 0;
@@ -53,16 +58,16 @@ function drawBoard() {
 }
 drawBoard();
 
-/* SANTA WISH + SAVE */
+/* WISH + SAVE */
 function sendWish() {
-  const wish = document.getElementById("wishInput").value;
-  if (!wish) return;
+  const wishInput = document.getElementById("wishInput");
+  if (!wishInput.value) return;
 
-  localStorage.setItem("santaWish", wish);
+  localStorage.setItem("santaWish", wishInput.value);
 
   const replies = [
-    "🎅 Ho Ho Ho! I’m on my way!",
-    "🎁 Your wish is safely with Santa!",
+    "🎅 Ho Ho Ho! I'm on my way!",
+    "🎁 Santa has received your wish!",
     "🦌 The reindeers are ready!",
     "❄️ Keep believing in magic!"
   ];
