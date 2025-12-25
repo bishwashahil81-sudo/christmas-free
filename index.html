@@ -9,27 +9,37 @@
 <body>
     <div id="loader"><span>❄️</span><p>Loading Magic...</p></div>
 
-    <div class="background-container"></div>
-    <canvas id="snowCanvas"></canvas>
+    <audio id="bgm" src="music.mp3" loop></audio>
 
-    <div class="controls">
-        <button id="musicToggle">Music OFF</button>
-        <button onclick="showSection('home')">Home</button>
-        <button onclick="showSection('notes')">Notes 💌</button>
-        <button onclick="showSection('gallery')">Gallery 📸</button>
+    <div class="background-container"></div>
+    <canvas id="snow"></canvas> <canvas id="effects"></canvas> <div class="controls">
+        <button id="musicToggle">🎵 Music</button>
+        <button data-section="home">Home</button>
+        <button data-section="notes">Notes 💌</button>
+        <button data-section="gallery">Gallery 📸</button>
+        <button id="shareBtn">🔗 Share</button>
     </div>
 
-    <div id="home" class="content-section">
+    <div id="home" class="section active">
         <h1>Merry Christmas!</h1>
         <div class="game-container glass">
             <h2 id="statusText">Your Turn (X)</h2>
             <div class="board" id="board">
-                </div>
-            <button id="restartBtn">Restart Game</button>
+                <div class="cell" data-i="0"></div>
+                <div class="cell" data-i="1"></div>
+                <div class="cell" data-i="2"></div>
+                <div class="cell" data-i="3"></div>
+                <div class="cell" data-i="4"></div>
+                <div class="cell" data-i="5"></div>
+                <div class="cell" data-i="6"></div>
+                <div class="cell" data-i="7"></div>
+                <div class="cell" data-i="8"></div>
+            </div>
+            <button onclick="resetGame()">Restart Game</button>
         </div>
     </div>
 
-    <div id="notes" class="content-section" style="display:none;">
+    <div id="notes" class="section">
         <h1>Holiday Notes</h1>
         <div class="glass-card glass">
             <p id="noteContent">Click the gift!</p>
@@ -37,7 +47,7 @@
         </div>
     </div>
 
-    <div id="gallery" class="content-section" style="display:none;">
+    <div id="gallery" class="section">
         <h1>Holiday Gallery</h1>
         <div class="gallery-grid">
             <div class="photo-card"><img src="img1.jpg"></div>
@@ -50,11 +60,12 @@
     <div id="winOverlay" class="overlay" style="display:none;">
         <div class="win-box glass">
             <h2 id="winTitle">Merry Christmas! 🎉</h2>
-            <button onclick="closeWinPopup()">Play Again 🎁</button>
+            <button onclick="resetGame()">Play Again 🎁</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
 
