@@ -1,85 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Christmas 2025 ❄️</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas 2025</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<!-- LOADER -->
-<div id="loader">
-  <div class="snow-spinner"></div>
-  <p>Loading Christmas Magic...</p>
-</div>
-
-<!-- BACKGROUND -->
-<div class="background-container"></div>
-
-<!-- EFFECT CANVASES -->
-<canvas id="snow"></canvas>
-<canvas id="effects" style="pointer-events:none;"></canvas>
-
-<!-- MUSIC -->
-<audio id="bgm" src="bgm.mp3" loop playsinline></audio>
-
-<!-- CONTROLS -->
-<div class="top-controls glass">
-  <button id="musicToggle">🎵 Music</button>
-  <button data-section="home">🏠 Home</button>
-  <button data-section="notes">🎁 Notes</button>
-  <button data-section="gallery">🖼️ Gallery</button>
-  <button id="shareBtn">📤 Share</button>
-</div>
-
-<main>
-<section id="home" class="section active glass">
-  <h1>Merry Christmas 🎄</h1>
-  <p>Enjoy the peaceful snowfall</p>
-
-  <div class="board">
-    <div class="cell" data-i="0"></div>
-    <div class="cell" data-i="1"></div>
-    <div class="cell" data-i="2"></div>
-    <div class="cell" data-i="3"></div>
-    <div class="cell" data-i="4"></div>
-    <div class="cell" data-i="5"></div>
-    <div class="cell" data-i="6"></div>
-    <div class="cell" data-i="7"></div>
-    <div class="cell" data-i="8"></div>
-  </div>
-</section>
-
-<section id="notes" class="section glass">
-<h2>Christmas Wishes 🎁</h2>
-<p>
-Merry Christmas, everyone! 🎄
-I wanted to send a little extra love from my side today. While this season is full of lights and laughter, I know it can also be a heavy time for some. If you’re navigating a tough season right now, please know that you aren’t alone and you are incredibly resilient.
-May today bring you a moment of peace and the reminder that better days are coming. Sending you all so much strength and warmth! ✨
-— Sahil.✨
-</p>
-</section>
-
-<section id="gallery" class="section glass">
-<h2>Gallery ❄️</h2>
-<div class="grid">
-  <img src="vibe1.jpg">
-  <img src="vibe2.jpg">
-  <img src="vibe3.jpg">
-  <img src="vibe1.jpg">
-</div>
-</section>
-</main>
-
-<div id="winOverlay" class="glass">
-<h2>🎄 Merry Christmas! 🎄</h2>
-<button onclick="resetGame()">Play Again</button>
-</div>
-
-<!-- SANTA -->
-<div id="santa"></div>
-
-<script src="script.js"></script>
+    <div id="loading-screen" class="glassmorphism">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+    
+    <div id="background-container">
+        <img id="bg-image" src="https://example.com/santa-chariot-hd.jpg" alt="Santa in chariot" onload="hideLoading()">
+    </div>
+    
+    <canvas id="snow-canvas"></canvas>
+    
+    <audio id="bg-music" loop>
+        <source src="https://example.com/christmas-music.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div id="app-container">
+        <nav class="glassmorphism">
+            <button onclick="showSection('home')">Home</button>
+            <button onclick="showSection('notes')">Notes</button>
+            <button onclick="showSection('gallery')">Gallery</button>
+            <button id="music-toggle" onclick="toggleMusic()">🎵 Music On</button>
+        </nav>
+        
+        <section id="home" class="section active">
+            <h1>Merry Christmas 2025!</h1>
+            <p>Welcome to a festive holiday app. Play Tic-Tac-Toe against the Robot!</p>
+            <div id="tic-tac-toe" class="glassmorphism">
+                <div class="board">
+                    <div class="cell" data-index="0"></div>
+                    <div class="cell" data-index="1"></div>
+                    <div class="cell" data-index="2"></div>
+                    <div class="cell" data-index="3"></div>
+                    <div class="cell" data-index="4"></div>
+                    <div class="cell" data-index="5"></div>
+                    <div class="cell" data-index="6"></div>
+                    <div class="cell" data-index="7"></div>
+                    <div class="cell" data-index="8"></div>
+                </div>
+                <button id="reset-game" onclick="resetGame()">Reset Game</button>
+            </div>
+        </section>
+        
+        <section id="notes" class="section">
+            <div class="glassmorphism card">
+                <h2>Holiday Wishes</h2>
+                <p id="wish-text">Click the Gift button for a random wish!</p>
+                <button onclick="generateWish()">🎁 Gift</button>
+            </div>
+        </section>
+        
+        <section id="gallery" class="section">
+            <div class="gallery-grid">
+                <img src="https://example.com/holiday-photo1.jpg" alt="Holiday 1">
+                <img src="https://example.com/holiday-photo2.jpg" alt="Holiday 2">
+                <img src="https://example.com/holiday-photo3.jpg" alt="Holiday 3">
+                <img src="https://example.com/holiday-photo4.jpg" alt="Holiday 4">
+            </div>
+        </section>
+    </div>
+    
+    <div id="win-popup" class="overlay">
+        <div class="glassmorphism popup">
+            <h2>Merry Christmas!</h2>
+            <p>You won the game!</p>
+            <button onclick="closePopup()">Play Again</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
