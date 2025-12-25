@@ -8,19 +8,23 @@
 </head>
 <body>
 
+<!-- LOADER -->
 <div id="loader">
   <div class="snow-spinner"></div>
   <p>Loading Christmas Magic...</p>
 </div>
 
+<!-- BACKGROUND -->
 <div class="background-container"></div>
 
-<!-- EFFECT LAYERS -->
-<canvas id="effects"></canvas>
+<!-- EFFECT CANVASES -->
 <canvas id="snow"></canvas>
+<canvas id="effects"></canvas>
 
-<audio id="bgm" src="bgm.mp3" loop></audio>
+<!-- MUSIC -->
+<audio id="bgm" src="bgm.mp3" loop playsinline></audio>
 
+<!-- CONTROLS -->
 <div class="top-controls glass">
   <button id="musicToggle">🎵 Music</button>
   <button data-section="home">🏠 Home</button>
@@ -32,6 +36,8 @@
 <main>
 <section id="home" class="section active glass">
   <h1>Merry Christmas 🎄</h1>
+  <p>Enjoy the peaceful snowfall</p>
+
   <div class="board">
     <div class="cell" data-i="0"></div>
     <div class="cell" data-i="1"></div>
@@ -48,10 +54,10 @@
 <section id="notes" class="section glass">
 <h2>Christmas Wishes 🎁</h2>
 <p>
-May your days glow with warmth, your nights shine with peace,
-and your life be wrapped in love, joy, and endless blessings.
-Merry Christmas 🎄✨
-                                   From Shahil 
+May this Christmas wrap you in peace, warmth, and love.
+May every star guide you, every snowflake bless you,
+and every moment bring joy beyond measure.
+🎄✨
 </p>
 </section>
 
@@ -71,7 +77,8 @@ Merry Christmas 🎄✨
 <button onclick="resetGame()">Play Again</button>
 </div>
 
-<div id="santa"><div class="hand"></div></div>
+<!-- SANTA -->
+<div id="santa"></div>
 
 <script src="script.js"></script>
 </body>
