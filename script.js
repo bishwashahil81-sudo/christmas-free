@@ -1,7 +1,11 @@
 /* ================= LOADER ================= */
 window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
-  if (loader) loader.style.display = "none";
+  if (loader) {
+    // Smooth fade out
+    loader.style.opacity = "0";
+    setTimeout(() => loader.style.display = "none", 500);
+  }
 });
 
 /* ================= MUSIC (MOBILE SAFE) ================= */
@@ -22,15 +26,17 @@ musicToggle?.addEventListener("click", async () => {
       musicToggle.textContent = "🎵 Music";
     }
   } catch (e) {
-    alert("Tap once more to enable music 🎵");
+    console.log("Audio play blocked by browser. User interaction required.");
   }
 });
 
 /* ================= NAVIGATION ================= */
 document.querySelectorAll("[data-section]").forEach(btn => {
   btn.addEventListener("click", () => {
+    // Switch active section
     document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById(btn.dataset.section)?.classList.add("active");
+    const target = document.getElementById(btn.dataset.section);
+    if (target) target.classList.add("active");
   });
 });
 
@@ -39,7 +45,9 @@ const shareBtn = document.getElementById("shareBtn");
 shareBtn?.addEventListener("click", async () => {
   const url = location.href;
   if (navigator.share) {
-    await navigator.share({ title: "Merry Christmas 🎄", url });
+    try {
+      await navigator.share({ title: "Merry Christmas 🎄", url });
+    } catch (err) { console.log("Share failed", err); }
   } else {
     await navigator.clipboard.writeText(url);
     alert("Link copied 🎁");
@@ -59,6 +67,7 @@ cells.forEach(cell => {
     if (board[i]) return;
 
     place(i, "X");
+    // Robot moves automatically after 500ms
     setTimeout(() => !gameOver && robotMove(), 500);
   });
 });
@@ -67,7 +76,7 @@ function place(i, p) {
   board[i] = p;
   cells[i].textContent = p;
   cells[i].classList.add(p);
-  if (checkWin(p)) win();
+  if (checkWin(p)) win(p);
 }
 
 function robotMove() {
@@ -77,19 +86,23 @@ function robotMove() {
 }
 
 function checkWin(p) {
-  return [
-    [0,1,2],[3,4,5],[6,7,8],
-    [0,3,6],[1,4,7],[2,5,8],
-    [0,4,8],[2,4,6]
-  ].some(c => c.every(i => board[i] === p));
+  const patterns = [
+    [0,1,2],[3,4,5],[6,7,8], // Rows
+    [0,3,6],[1,4,7],[2,5,8], // Cols
+    [0,4,8],[2,4,6]          // Diagonals
+  ];
+  return patterns.some(c => c.every(i => board[i] === p));
 }
 
-function win() {
+function win(p) {
   if (gameOver) return;
   gameOver = true;
 
+  // Show the popup
   winOverlay.style.display = "flex";
-  navigator.vibrate?.([200, 100, 200]);
+  
+  // Vibration for mobile users
+  if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
 
   spawnGifts();
 }
@@ -102,22 +115,23 @@ function resetGame() {
     c.classList.remove("X", "O");
   });
   winOverlay.style.display = "none";
+  gifts = []; // Clear winning gifts
 }
 
-/* ================= SNOW ================= */
+/* ================= SNOW CANVAS ================= */
 const snow = document.getElementById("snow");
 const sctx = snow.getContext("2d");
 
 function resizeSnow() {
-  snow.width = innerWidth;
-  snow.height = innerHeight;
+  snow.width = window.innerWidth;
+  snow.height = window.innerHeight;
 }
 resizeSnow();
-addEventListener("resize", resizeSnow);
+window.addEventListener("resize", resizeSnow);
 
 const flakes = Array.from({ length: 120 }, () => ({
-  x: Math.random() * innerWidth,
-  y: Math.random() * innerHeight,
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
   r: Math.random() * 2 + 1,
   s: Math.random() + 0.5
 }));
@@ -138,26 +152,36 @@ const flakes = Array.from({ length: 120 }, () => ({
   requestAnimationFrame(snowLoop);
 })();
 
-/* ================= STARS + AURORA + GIFTS ================= */
+/* ================= SPECIAL EFFECTS (GIFTS) ================= */
 const fx = document.getElementById("effects");
 const fctx = fx.getContext("2d");
 
 function resizeFX() {
-  fx.width = innerWidth;
-  fx.height = innerHeight;
+  fx.width = window.innerWidth;
+  fx.height = window.innerHeight;
 }
 resizeFX();
-addEventListener("resize", resizeFX);
-
-const stars = Array.from({ length: 60 }, () => ({
-  x: Math.random() * fx.width,
-  y: Math.random() * fx.height,
-  s: Math.random() + 0.3
-}));
+window.addEventListener("resize", resizeFX);
 
 let gifts = [];
 
 function spawnGifts() {
   gifts = Array.from({ length: 25 }, () => ({
     x: Math.random() * fx.width,
-    y: -20,
+    y: -50,
+    s: Math.random() * 2 + 2,
+    img: ["🎁", "🎄", "❄️", "🔔"][Math.floor(Math.random() * 4)]
+  }));
+}
+
+(function fxLoop() {
+  fctx.clearRect(0, 0, fx.width, fx.height);
+  gifts.forEach(g => {
+    fctx.font = "24px Arial";
+    fctx.fillText(g.img, g.x, g.y);
+    g.y += g.s;
+    if (g.y > fx.height) g.y = -50;
+  });
+  requestAnimationFrame(fxLoop);
+})();
+
