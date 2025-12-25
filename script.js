@@ -154,12 +154,9 @@ function spawnGifts(){
     if(s.y>fx.height){s.y=-5;s.x=Math.random()*fx.width;}
   });
 
-  /* Gifts */
-  gifts.forEach(g=>{
-    fctx.fillStyle="red";
-    fctx.fillRect(g.x,g.y,12,12);
-    g.y+=g.s;
-  });
-
-  requestAnimationFrame(effectsLoop);
-})();
+/* 🎁 Gifts (emoji) */
+gifts.forEach(g => {
+  fctx.font = "20px serif";
+  fctx.fillText("🎁", g.x, g.y);
+  g.y += g.s;
+});
