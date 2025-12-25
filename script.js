@@ -97,3 +97,16 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 });
+const sleigh = document.getElementById("sleigh");
+
+if (sleigh) {
+  setInterval(() => {
+    sleigh.style.transition = "none";
+    sleigh.style.left = "-300px";
+
+    setTimeout(() => {
+      sleigh.style.transition = "left 8s linear";
+      sleigh.style.left = "110%";
+    }, 100);
+  }, 15000);
+}
