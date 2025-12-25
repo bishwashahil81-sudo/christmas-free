@@ -34,17 +34,29 @@
     </p>
   </div>
 
-  <div class="section">
-    <h2>🎮 Tic-Tac-Toe</h2>
-    <div class="board" id="board"></div>
+  <div class="card">
+  <h2>🎮 Tic-Tac-Toe</h2>
+
+  <div id="ticTacToe" class="tic-grid">
+    <div class="cell" onclick="playCell(this)"></div>
+    <div class="cell" onclick="playCell(this)"></div>
+    <div class="cell" onclick="playCell(this)"></div>
+    <div class="cell" onclick="playCell(this)"></div>
+    <div class="cell" onclick="playCell(this)"></div>
+    <div class="cell" onclick="playCell(this)"></div>
+    <div class="cell" onclick="playCell(this)"></div>
+    <div class="cell" onclick="playCell(this)"></div>
+    <div class="cell" onclick="playCell(this)"></div>
   </div>
 
-  <div class="section">
+  <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+  </div>
+   <di class="section">
     <h2>🎅 Write a Wish to Santa</h2>
     <textarea id="wishInput" placeholder="Dear Santa..."></textarea>
     <button onclick="sendWish()">Send Wish</button>
     <div id="santaReply"></div>
-  </div>
+  </</d>
 
 </div>
 
