@@ -66,20 +66,33 @@ function robotMove(){
   const i=board.findIndex(v=>!v);
   if(i!==-1) place(i,"O");
 }
-
 function checkWin(p){
-  return [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
-  .some(c=>c.every(i=>board[i]===p));
+  return [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ].some(c => c.every(i => board[i] === p));
 }
 
 function win(){
-  gameOver=true;
-  winOverlay.style.display="flex";
-  navigator.vibrate?.([200,100,200]);
-  spawnGifts();
-}
+  if(gameOver) return; // prevent double win
+  gameOver = true;
 
-function resetGame(){
+  // Show win overlay
+  const overlay = document.getElementById("winOverlay");
+  if (overlay) overlay.style.display = "flex";
+
+  // Mobile vibration (safe)
+  if (navigator.vibrate) {
+    navigator.vibrate([200, 100, 200, 100, 300]);
+  }
+
+  // 🎁 Falling gifts (only if function exists)
+  if (typeof spawnGifts === "function") {
+    spawnGifts();
+  }
+}
+function function (){
   board.fill(null);
   gameOver=false;
   cells.forEach(c=>{
