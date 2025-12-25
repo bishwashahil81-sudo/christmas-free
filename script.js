@@ -3,20 +3,35 @@ function startMusic() {
   document.getElementById("bgm").play();
 }
 
-// TIC TAC TOE
-let currentSymbol = "❌";
+// TIC TAC TOE — PLAYER vs ROBOT
+let player = "❌";
+let robot = "⭕";
+let cells = document.querySelectorAll(".cell");
+let gameActive = true;
 
 function playCell(cell) {
-  if (cell.textContent !== "") return;
-  cell.textContent = currentSymbol;
-  currentSymbol = currentSymbol === "❌" ? "⭕" : "❌";
+  if (!gameActive || cell.textContent !== "") return;
+
+  // Player move
+  cell.textContent = player;
+
+  // Robot move after short delay
+  setTimeout(robotMove, 400);
+}
+
+function robotMove() {
+  if (!gameActive) return;
+
+  let emptyCells = Array.from(cells).filter(c => c.textContent === "");
+  if (emptyCells.length === 0) return;
+
+  let randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  randomCell.textContent = robot;
 }
 
 function resetGame() {
-  document.querySelectorAll(".cell").forEach(cell => {
-    cell.textContent = "";
-  });
-  currentSymbol = "❌";
+  cells.forEach(cell => cell.textContent = "");
+  gameActive = true;
 }
 
 // SANTA WISH
