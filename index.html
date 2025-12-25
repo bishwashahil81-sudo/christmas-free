@@ -1,71 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christmas 2025 ❄️</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Merry Christmas 🎄</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div id="loader"><span>❄️</span><p>Loading Magic...</p></div>
 
-    <audio id="bgm" src="music.mp3" loop></audio>
+<audio id="bgm" src="bgm.mp3" autoplay loop></audio>
 
-    <div class="background-container"></div>
-    <canvas id="snow"></canvas> <canvas id="effects"></canvas> <div class="controls">
-        <button id="musicToggle">🎵 Music</button>
-        <button data-section="home">Home</button>
-        <button data-section="notes">Notes 💌</button>
-        <button data-section="gallery">Gallery 📸</button>
-        <button id="shareBtn">🔗 Share</button>
-    </div>
+<div class="overlay">
 
-    <div id="home" class="section active">
-        <h1>Merry Christmas!</h1>
-        <div class="game-container glass">
-            <h2 id="statusText">Your Turn (X)</h2>
-            <div class="board" id="board">
-                <div class="cell" data-i="0"></div>
-                <div class="cell" data-i="1"></div>
-                <div class="cell" data-i="2"></div>
-                <div class="cell" data-i="3"></div>
-                <div class="cell" data-i="4"></div>
-                <div class="cell" data-i="5"></div>
-                <div class="cell" data-i="6"></div>
-                <div class="cell" data-i="7"></div>
-                <div class="cell" data-i="8"></div>
-            </div>
-            <button onclick="resetGame()">Restart Game</button>
-        </div>
-    </div>
+  <header>
+    <h1>🎄 Merry Christmas 🎄</h1>
+    <p>With love from Sahil</p>
+  </header>
 
-    <div id="notes" class="section">
-        <h1>Holiday Notes</h1>
-        <div class="glass-card glass">
-            <p id="noteContent">Click the gift!</p>
-            <button onclick="getNewNote()">Open a Gift 🎁</button>
-        </div>
-    </div>
+  <div class="section">
+    <h2>💌 Message from Sahil</h2>
+    <p>
+      Merry Christmas to my dear friends and family ❤️  
+      Thank you for all the love, laughter, and memories.
+      May your days be warm, joyful, and full of magic.
+      I’m grateful for every one of you.
+    </p>
+  </div>
 
-    <div id="gallery" class="section">
-        <h1>Holiday Gallery</h1>
-        <div class="gallery-grid">
-            <div class="photo-card"><img src="img1.jpg"></div>
-            <div class="photo-card"><img src="img2.jpg"></div>
-            <div class="photo-card"><img src="img3.jpg"></div>
-            <div class="photo-card"><img src="img4.jpg"></div>
-        </div>
-    </div>
+  <div class="section">
+    <h2>🎮 Tic-Tac-Toe</h2>
+    <div class="board" id="board"></div>
+  </div>
 
-    <div id="winOverlay" class="overlay" style="display:none;">
-        <div class="win-box glass">
-            <h2 id="winTitle">Merry Christmas! 🎉</h2>
-            <button onclick="resetGame()">Play Again 🎁</button>
-        </div>
-    </div>
+  <div class="section">
+    <h2>🎅 Write a Wish to Santa</h2>
+    <textarea id="wishInput" placeholder="Dear Santa..."></textarea>
+    <button onclick="sendWish()">Send Wish</button>
+    <div id="santaReply"></div>
+  </div>
 
-    <script src="script.js"></script>
+</div>
+
+<img src="https://i.imgur.com/Q9Z4F3S.png" id="sleigh">
+
+<script src="script.js"></script>
 </body>
 </html>
-
-
