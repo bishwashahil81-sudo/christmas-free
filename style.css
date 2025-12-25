@@ -181,3 +181,22 @@ body::after {
     top: 15%;
   }
 }
+/* 🎅 SANTA REPLY MAGIC */
+#santaReply {
+  margin-top: 15px;
+  font-size: 22px;
+  font-family: "Comic Sans MS", "Segoe UI", cursive;
+  color: #ffeb99;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  text-shadow:
+    0 0 6px #ffd700,
+    0 0 12px #ffcc00,
+    0 0 20px #ff9900;
+}
+
+#santaReply.show {
+  opacity: 1;
+  transform: scale(1.05);
+}
