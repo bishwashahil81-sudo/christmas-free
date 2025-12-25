@@ -26,6 +26,10 @@ header {
   margin-bottom: 20px;
 }
 
+header button {
+  margin-top: 10px;
+}
+
 .section {
   background: rgba(255,255,255,0.15);
   border-radius: 15px;
@@ -75,4 +79,42 @@ button {
 
 #santaReply {
   margin-top: 10px;
-  color: #ff
+  color: #ffdd99;
+  font-style: italic;
+}
+
+/* SNOW */
+.snowflake {
+  position: fixed;
+  top: -10px;
+  color: white;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+  }
+}
+
+/* STARS */
+.star {
+  position: fixed;
+  color: gold;
+  font-size: 6px;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+/* SANTA SLEIGH */
+#sleigh {
+  position: fixed;
+  top: 20%;
+  left: -300px;
+  width: 250px;
+  pointer-events: none;
+}
