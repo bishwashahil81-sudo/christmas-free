@@ -3,78 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christmas 2025</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Christmas 2025 ❄️</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="loading-screen" class="glassmorphism">
-        <div class="spinner"></div>
-        <p>Loading...</p>
+    <div id="loader"><span>❄️</span><p>Loading Magic...</p></div>
+
+    <div class="background-container"></div>
+    <canvas id="snowCanvas"></canvas>
+
+    <div class="controls">
+        <button id="musicToggle">Music OFF</button>
+        <button onclick="showSection('home')">Home</button>
+        <button onclick="showSection('notes')">Notes 💌</button>
+        <button onclick="showSection('gallery')">Gallery 📸</button>
     </div>
-    
-    <div id="background-container">
-        <img id="bg-image" src="https://example.com/santa-chariot-hd.jpg" alt="Santa in chariot" onload="hideLoading()">
-    </div>
-    
-    <canvas id="snow-canvas"></canvas>
-    
-    <audio id="bg-music" loop>
-        <source src="https://example.com/christmas-music.mp3" type="audio/mpeg">
-    </audio>
-    
-    <div id="app-container">
-        <nav class="glassmorphism">
-            <button onclick="showSection('home')">Home</button>
-            <button onclick="showSection('notes')">Notes</button>
-            <button onclick="showSection('gallery')">Gallery</button>
-            <button id="music-toggle" onclick="toggleMusic()">🎵 Music On</button>
-        </nav>
-        
-        <section id="home" class="section active">
-            <h1>Merry Christmas 2025!</h1>
-            <p>Welcome to a festive holiday app. Play Tic-Tac-Toe against the Robot!</p>
-            <div id="tic-tac-toe" class="glassmorphism">
-                <div class="board">
-                    <div class="cell" data-index="0"></div>
-                    <div class="cell" data-index="1"></div>
-                    <div class="cell" data-index="2"></div>
-                    <div class="cell" data-index="3"></div>
-                    <div class="cell" data-index="4"></div>
-                    <div class="cell" data-index="5"></div>
-                    <div class="cell" data-index="6"></div>
-                    <div class="cell" data-index="7"></div>
-                    <div class="cell" data-index="8"></div>
+
+    <div id="home" class="content-section">
+        <h1>Merry Christmas!</h1>
+        <div class="game-container glass">
+            <h2 id="statusText">Your Turn (X)</h2>
+            <div class="board" id="board">
                 </div>
-                <button id="reset-game" onclick="resetGame()">Reset Game</button>
-            </div>
-        </section>
-        
-        <section id="notes" class="section">
-            <div class="glassmorphism card">
-                <h2>Holiday Wishes</h2>
-                <p id="wish-text">Click the Gift button for a random wish!</p>
-                <button onclick="generateWish()">🎁 Gift</button>
-            </div>
-        </section>
-        
-        <section id="gallery" class="section">
-            <div class="gallery-grid">
-                <img src="https://example.com/holiday-photo1.jpg" alt="Holiday 1">
-                <img src="https://example.com/holiday-photo2.jpg" alt="Holiday 2">
-                <img src="https://example.com/holiday-photo3.jpg" alt="Holiday 3">
-                <img src="https://example.com/holiday-photo4.jpg" alt="Holiday 4">
-            </div>
-        </section>
-    </div>
-    
-    <div id="win-popup" class="overlay">
-        <div class="glassmorphism popup">
-            <h2>Merry Christmas!</h2>
-            <p>You won the game!</p>
-            <button onclick="closePopup()">Play Again</button>
+            <button id="restartBtn">Restart Game</button>
         </div>
     </div>
-    
+
+    <div id="notes" class="content-section" style="display:none;">
+        <h1>Holiday Notes</h1>
+        <div class="glass-card glass">
+            <p id="noteContent">Click the gift!</p>
+            <button onclick="getNewNote()">Open a Gift 🎁</button>
+        </div>
+    </div>
+
+    <div id="gallery" class="content-section" style="display:none;">
+        <h1>Holiday Gallery</h1>
+        <div class="gallery-grid">
+            <div class="photo-card"><img src="img1.jpg"></div>
+            <div class="photo-card"><img src="img2.jpg"></div>
+            <div class="photo-card"><img src="img3.jpg"></div>
+            <div class="photo-card"><img src="img4.jpg"></div>
+        </div>
+    </div>
+
+    <div id="winOverlay" class="overlay" style="display:none;">
+        <div class="win-box glass">
+            <h2 id="winTitle">Merry Christmas! 🎉</h2>
+            <button onclick="closeWinPopup()">Play Again 🎁</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
+
