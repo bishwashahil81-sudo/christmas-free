@@ -1,40 +1,52 @@
-body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #050a18; font-family: sans-serif; }
-
-/* THE INSPIRATION BACKGROUND */
-.background-container {
-    position: fixed; inset: 0;
-    background: url('bg.jpg') no-repeat center center/cover;
-    filter: blur(10px) brightness(60%);
-    transform: scale(1.1);
-    z-index: -3;
+/* --- 1. SECTIONS --- */
+/* Your new JS uses the class .section and .active to switch pages */
+.section {
+    display: none; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 90%;
+    color: white;
 }
 
-#snowCanvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
+.section.active {
+    display: block; /* Only shows the section when active */
+}
 
-/* GLASS EFFECT */
+/* --- 2. THE TIC-TAC-TOE GLOW --- */
+/* Your new JS adds "X" or "O" classes directly to the cells */
+.cell.X {
+    color: #ff4d4d;
+    text-shadow: 0 0 15px #ff4d4d, 0 0 5px white;
+}
+
+.cell.O {
+    color: #00ffcc;
+    text-shadow: 0 0 15px #00ffcc, 0 0 5px white;
+}
+
+/* --- 3. SPECIAL EFFECTS CANVAS --- */
+/* This ensures your winning gift animation appears correctly */
+#snow, #effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows you to click buttons through the canvas */
+    z-index: -1;
+}
+
+/* --- 4. GLASSMORPHISM REFINEMENT --- */
+/* Keeps the "dreamy" look from your inspiration */
 .glass {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
-
-.controls { position: fixed; top: 15px; width: 100%; display: flex; justify-content: center; gap: 8px; z-index: 10; }
-button { background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid white; padding: 8px 12px; border-radius: 10px; cursor: pointer; }
-
-.content-section { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 90%; color: white; }
-
-/* GAME STYLES */
-.board { display: grid; grid-template-columns: repeat(3, 75px); gap: 10px; justify-content: center; margin: 20px 0; }
-.cell { width: 75px; height: 75px; background: rgba(0,0,0,0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; cursor: pointer; }
-.x-player { color: #ff4d4d; text-shadow: 0 0 15px #ff4d4d; }
-.o-player { color: #00ffcc; text-shadow: 0 0 15px #00ffcc; }
-
-/* LOADER & OVERLAYS */
-#loader { position: fixed; inset: 0; background: #050a18; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; color: white; }
-#loader span { font-size: 50px; animation: spin 2s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 100; }
 
