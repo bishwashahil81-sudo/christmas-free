@@ -1,79 +1,78 @@
-/* --- 1. CORE LAYOUT --- */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body, html { 
-    width: 100%; height: 100%; 
-    overflow: hidden; 
-    background-color: #050a18; /* Dark blue backup */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
 }
 
-/* --- 2. THE DREAMY BACKGROUND --- */
-.background-container {
-    position: fixed;
-    inset: 0;
-    /* High-quality online link for immediate results */
-    background: url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
-    filter: blur(8px) brightness(55%);
-    transform: scale(1.1);
-    z-index: -3;
+body {
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  overflow: hidden;
+  transition: background-image 2s ease-in-out;
 }
 
-canvas { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
-
-/* --- 3. LOADER --- */
-#loader {
-    position: fixed; inset: 0; 
-    background: #050a18; 
-    display: flex; flex-direction: column; align-items: center; justify-content: center; 
-    z-index: 9999; color: white; transition: 0.5s;
-}
-#loader span { font-size: 60px; animation: spin 2s linear infinite; }
-@keyframes spin { 100% { transform: rotate(360deg); } }
-
-/* --- 4. NAVIGATION & GLASS --- */
-.controls {
-    position: fixed; top: 15px; width: 100%; 
-    display: flex; justify-content: center; gap: 8px; z-index: 100;
-}
-button { 
-    background: rgba(255, 255, 255, 0.15); color: white; border: 1px solid rgba(255,255,255,0.3);
-    padding: 10px 14px; border-radius: 12px; cursor: pointer; backdrop-filter: blur(5px);
-}
-
-.glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-}
-
-/* --- 5. SECTION VISIBILITY --- */
-.section {
-    display: none; /* Hide by default */
-    position: absolute; inset: 0;
-    flex-direction: column; align-items: center; justify-content: center;
-    color: white; text-align: center;
-}
-
-.section.active {
-    display: flex; /* Show only the active section */
-}
-
-/* --- 6. GAME STYLES --- */
-.board { display: grid; grid-template-columns: repeat(3, 85px); gap: 10px; margin: 20px 0; }
-.cell { 
-    width: 85px; height: 85px; background: rgba(0,0,0,0.3); border-radius: 12px;
-    display: flex; align-items: center; justify-content: center; font-size: 40px; cursor: pointer;
-}
-.cell.X { color: #ff4d4d; text-shadow: 0 0 15px #ff4d4d; }
-.cell.O { color: #00ffcc; text-shadow: 0 0 15px #00ffcc; }
-
-/* --- 7. OVERLAY --- */
 .overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.8);
-    display: flex; align-items: center; justify-content: center; z-index: 1000;
+  background: rgba(0,0,0,0.45);
+  height: 100%;
+  padding: 20px;
+  overflow-y: auto;
 }
 
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.section {
+  background: rgba(255,255,255,0.15);
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(6px);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.cell {
+  width: 80px;
+  height: 80px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 10px;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  height: 90px;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  resize: none;
+}
+
+button {
+  margin-top: 10px;
+  padding: 8px 14px;
+  background: #e63946;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+#santaReply {
+  margin-top: 10px;
+  color: #ff
