@@ -97,16 +97,25 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 });
-const sleigh = document.getElementById("sleigh");
+/* 🛷 SANTA SLEIGH FLY (FIXED & GUARANTEED) */
+window.addEventListener("load", () => {
+  const sleigh = document.getElementById("sleigh");
+  if (!sleigh) return;
 
-if (sleigh) {
-  setInterval(() => {
+  function flySleigh() {
+    // reset position instantly
     sleigh.style.transition = "none";
-    sleigh.style.left = "-300px";
+    sleigh.style.left = "-400px";
 
-    setTimeout(() => {
-      sleigh.style.transition = "left 8s linear";
-      sleigh.style.left = "110%";
-    }, 100);
-  }, 15000);
-}
+    // allow browser to register reset
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        sleigh.style.transition = "left 8s linear";
+        sleigh.style.left = "110%";
+      });
+    });
+  }
+
+  flySleigh();                // run immediately
+  setInterval(flySleigh, 15000); // repeat
+});
